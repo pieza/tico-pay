@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt-nodejs')
 
 const UserSchema = new Schema({
     identification: { type: String, required: true },
+    type: { type String, required: true, default: 'client'},
     name: { type: String, require: true },
     lastname: { type: String, require: true },
     email: { type: String, require: true },

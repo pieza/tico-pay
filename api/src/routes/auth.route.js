@@ -15,11 +15,11 @@ router.get('/logout', (req, res) => {
 /** GET login */
 router.post('/login', async (req, res, next) => {
     try {
-        const { errors, isValid } = validateLoginInput(req.body)
+        const { error, isValid } = validateLoginInput(req.body)
         
         // input data is incomplete
         if(!isValid)
-            return res.status(400).json({ errors })
+            return res.status(400).json({ error })
 
         const user = await User.findOne({ identification: req.body.identification })
         
@@ -32,7 +32,7 @@ router.post('/login', async (req, res, next) => {
             return res.status(400).json({error: 'Usuario o contraseña incorrectos.' })
         
         // user match
-        const payload = user.getSimple()
+        const payload = user
         
         jtw.sign(payload,
             process.env.SECRET_JWT_KEY, 
@@ -54,21 +54,21 @@ router.post('/login', async (req, res, next) => {
 /** POST signup */
 router.post('/signup', async (req, res, next) => {
     try {
-        const { errors, isValid } = validateSignupInput(req.body)
+        const { error, isValid } = validateSignupInput(req.body)
         
         // input data is incomplete
         if(!isValid)
-            return res.status(400).json({ errors })
+            return res.status(400).json({ error })
 
         const userByEmail = await User.findOne({ email: req.body.email })
-        const userByUsername = await User.findOne({ username: req.body.username })
+        const userByIdentification = await User.findOne({ identification: req.body.identification })
     
         // email already exist
         if(userByEmail)
-            return res.status(400).json({errors: { email: 'Email already taken' }})
+            return res.status(400).json({error: 'El correo ya esta registrado.' })
     
-        if(userByUsername)
-            return res.status(400).json({errors: { username: 'Username already taken' }})
+        if(userByIdentification)
+            return res.status(40).json({error: 'La cedula o pasaporte ya esta registrado.' })
     
     
         // create user
@@ -92,7 +92,7 @@ router.post('/signup', async (req, res, next) => {
 router.get('/current', passport.authenticate('jwt', {session: false}), async (req, res) => {
     const user = await User.findById(req.user._id)
     const payload = user.getSimple()
-    console.log(user)    
+        
     jtw.sign(payload,
         process.env.SECRET_JWT_KEY, 
         { expiresIn: 3600 }, 
