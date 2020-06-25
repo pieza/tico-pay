@@ -15,10 +15,10 @@ router.get('/logout', (req, res) => {
 /** GET login */
 router.post('/login', async (req, res, next) => {
     try {
-        const { error, isValid } = validateLoginInput(req.body)
+        const error = validateLoginInput(req.body)
         
         // input data is incomplete
-        if(!isValid)
+        if(error)
             return res.status(400).json({ error })
 
         const user = await User.findOne({ identification: req.body.identification })
@@ -68,7 +68,7 @@ router.post('/signup', async (req, res, next) => {
             return res.status(400).json({error: 'El correo ya esta registrado.' })
     
         if(userByIdentification)
-            return res.status(40).json({error: 'La cedula o pasaporte ya esta registrado.' })
+            return res.status(40).json({error: 'La cédula o pasaporte ya esta registrado.' })
     
     
         // create user

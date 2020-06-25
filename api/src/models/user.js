@@ -2,14 +2,16 @@ const mongoose = require('mongoose')
 const { Schema } = mongoose
 const bcrypt = require('bcrypt-nodejs')
 
+/** User db schema */
 const UserSchema = new Schema({
     identification: { type: String, required: true },
-    type: { type String, required: true, default: 'client'},
+    type: { type: String, required: true, default: 'client'},
     name: { type: String, require: true },
     lastname: { type: String, require: true },
     email: { type: String, require: true },
     password: { type: String, require: true },
     birthday: { type: Date, required: true },
+    birthday: { type: Date, required: true, default },
     credit_card: { 
         number: { type: Number, required: true },
         CVV: { type: Number, required: true },
@@ -18,10 +20,22 @@ const UserSchema = new Schema({
     }
 })
 
+/**
+ * Encrypt a string and return the hash.
+ * 
+ * @param {Sring} password actual password to encrypt.
+ * @return encrypted password.
+ */
 UserSchema.methods.encryptPassword = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 }
 
+/**
+ * Compares if a text is valid for the hash.
+ * 
+ * @param {String} password text to compare with original password.
+ * @return true if password is valid.
+ */
 UserSchema.methods.comparePassword = function (password) {
     return bcrypt.compareSync(password, this.password)
 }
