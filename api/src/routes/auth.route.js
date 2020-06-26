@@ -53,7 +53,7 @@ router.post('/login', async (req, res, next) => {
         
         jtw.sign(payload,
             process.env.SECRET_JWT_KEY, 
-            { expiresIn: 3600 }, 
+            { expiresIn: process.env.TOKEN_EXPIRATION }, 
             (err, token) => {
                 if(err)
                     next(err)
