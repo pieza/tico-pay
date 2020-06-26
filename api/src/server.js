@@ -26,4 +26,10 @@ app.use("*", (req, res, next) => {
     else next()
 })
 
+// error handling
+app.use((err, req, res, next) => {
+  console.log(err)
+  return res.status(501).json({ error: "Ha ocurrido un error desconocido." })
+})
+
 module.exports = app

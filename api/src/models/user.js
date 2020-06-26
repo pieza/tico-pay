@@ -40,4 +40,19 @@ UserSchema.methods.comparePassword = function (password) {
     return bcrypt.compareSync(password, this.password)
 }
 
+/**
+ * Return a secure version of the user model.
+ * 
+ * @return user object
+ */
+UserSchema.methods.getSimple = function () {
+    return { 
+        _id: this._id,
+        name: this.name, 
+        lastname: this.lastname,
+        email: this.email,
+        birthday: this.birthday,
+    }
+}
+
 module.exports = mongoose.model('User', UserSchema)

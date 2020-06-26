@@ -17,6 +17,9 @@ module.exports = function validateCreditCardInput(data) {
     if (!Validator.isLength(data.number + '', { min: 16, max: 16 })) 
         return 'El número de tarjeta no es válido.'
 
+    if (isEmpty(data.CVV)) 
+        return 'El código de seguridad no puede estar vacio.'
+
     if (!Validator.isLength(data.CVV, { min: 3, max: 3 })) 
         return 'El número de seguridad no es válido.'
 

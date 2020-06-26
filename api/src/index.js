@@ -1,6 +1,7 @@
 const dotenv = require('dotenv')
-const app = require('./server')
 dotenv.config()
+const app = require('./server')
+
 
 // db connection
 require('./db')

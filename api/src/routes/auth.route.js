@@ -42,14 +42,14 @@ router.post('/login', async (req, res, next) => {
         
         // user not exist
         if(!user)
-            return res.status(404).json({error: 'Usuario o contraseña incorrectos.' })
+            return res.status(400).json({error: 'Usuario o contraseña incorrectos.' })
         
         // incorrect password
         if(!user.comparePassword(req.body.password))
             return res.status(400).json({error: 'Usuario o contraseña incorrectos.' })
         
         // user match
-        const payload = user
+        const payload = user.getSimple()
         
         jtw.sign(payload,
             process.env.SECRET_JWT_KEY, 
@@ -78,10 +78,10 @@ router.post('/login', async (req, res, next) => {
  */
 router.post('/signup', async (req, res, next) => {
     try {
-        const { error, isValid } = validateSignupInput(req.body)
+        const error = validateSignupInput(req.body)
         
         // input data is incomplete
-        if(!isValid)
+        if(error)
             return res.status(400).json({ error })
 
         const userByEmail = await User.findOne({ email: req.body.email })
