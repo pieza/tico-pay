@@ -11,7 +11,7 @@ const UserSchema = new Schema({
     email: { type: String, require: true },
     password: { type: String, require: true },
     birthday: { type: Date, required: true },
-    birthday: { type: Date, required: true, default },
+    balance: { type: Number, required: true, default: 0 },
     credit_card: { 
         number: { type: Number, required: true },
         CVV: { type: Number, required: true },

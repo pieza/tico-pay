@@ -6,13 +6,30 @@ const passport = require('passport')
 const validateSignupInput = require('../utils/validators/signup.validator')
 const validateLoginInput = require('../utils/validators/login.validator')
 
-/** GET logout */
+/**
+ * GET /logout
+ * 
+ * Perform a logout of the app, make token invalid.
+ */
 router.get('/logout', (req, res) => {
     req.logout()
     res.send('success')
 })
 
-/** GET login */
+/** 
+ * POST /login 
+ * 
+ * Authenticate user in the app.
+ * 
+ * @body {
+ *  identification: '',
+ *  password: 'user password' 
+ * }
+ * 
+ * @response {
+ *  token: 'token to authenticate in app'
+ * }
+ */
 router.post('/login', async (req, res, next) => {
     try {
         const error = validateLoginInput(req.body)
@@ -51,7 +68,14 @@ router.post('/login', async (req, res, next) => {
     }
 })
 
-/** POST signup */
+/** 
+ * POST /signup 
+ * 
+ * Register a new user in the app.
+ * 
+ * @body     user object
+ * @response user created.
+ */
 router.post('/signup', async (req, res, next) => {
     try {
         const { error, isValid } = validateSignupInput(req.body)
@@ -89,6 +113,11 @@ router.post('/signup', async (req, res, next) => {
     }
 })
 
+/**
+ * GET /current
+ * 
+ * 
+ */
 router.get('/current', passport.authenticate('jwt', {session: false}), async (req, res) => {
     const user = await User.findById(req.user._id)
     const payload = user.getSimple()
