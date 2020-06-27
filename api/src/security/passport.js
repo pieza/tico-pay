@@ -9,6 +9,10 @@ const opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
 opts.secretOrKey = process.env.SECRET_JWT_KEY
 
+/**
+ * Authentication strategy of passport, using JSON Web Token.
+ * Validates the jwt_payload and return the data in the callback.
+ */
 passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
 	User.findById(jwt_payload._id)
 		.then(user => {

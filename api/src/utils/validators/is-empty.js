@@ -1,3 +1,9 @@
+/**
+ * Check if a variable of any type is empty.
+ * 
+ * @param {*} value object to validate. 
+ * @return true if element is valid.
+ */
 const isEmpty = value =>
   value === undefined ||
   value === null ||

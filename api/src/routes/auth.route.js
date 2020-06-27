@@ -6,37 +6,54 @@ const passport = require('passport')
 const validateSignupInput = require('../utils/validators/signup.validator')
 const validateLoginInput = require('../utils/validators/login.validator')
 
-/** GET logout */
+/**
+ * GET /logout
+ * 
+ * Perform a logout of the app, make token invalid.
+ */
 router.get('/logout', (req, res) => {
     req.logout()
     res.send('success')
 })
 
-/** GET login */
+/** 
+ * POST /login 
+ * 
+ * Authenticate user in the app.
+ * 
+ * @body {
+ *  identification: '',
+ *  password: 'user password' 
+ * }
+ * 
+ * @response {
+ *  token: 'token to authenticate in app'
+ * }
+ */
 router.post('/login', async (req, res, next) => {
     try {
-        const { error, isValid } = validateLoginInput(req.body)
+        const error = validateLoginInput(req.body)
         
         // input data is incomplete
-        if(!isValid)
+        if(error)
             return res.status(400).json({ error })
 
         const user = await User.findOne({ identification: req.body.identification })
         
         // user not exist
         if(!user)
-            return res.status(404).json({error: 'Usuario o contraseña incorrectos.' })
+            return res.status(400).json({error: 'Usuario o contraseña incorrectos.' })
         
         // incorrect password
         if(!user.comparePassword(req.body.password))
             return res.status(400).json({error: 'Usuario o contraseña incorrectos.' })
         
         // user match
-        const payload = user
+        const payload = user.getSimple()
         
         jtw.sign(payload,
             process.env.SECRET_JWT_KEY, 
-            { expiresIn: 3600 }, 
+            { expiresIn: process.env.TOKEN_EXPIRATION }, 
             (err, token) => {
                 if(err)
                     next(err)
@@ -51,13 +68,20 @@ router.post('/login', async (req, res, next) => {
     }
 })
 
-/** POST signup */
+/** 
+ * POST /signup 
+ * 
+ * Register a new user in the app.
+ * 
+ * @body     user object
+ * @response user created.
+ */
 router.post('/signup', async (req, res, next) => {
     try {
-        const { error, isValid } = validateSignupInput(req.body)
+        const error = validateSignupInput(req.body)
         
         // input data is incomplete
-        if(!isValid)
+        if(error)
             return res.status(400).json({ error })
 
         const userByEmail = await User.findOne({ email: req.body.email })
@@ -68,7 +92,7 @@ router.post('/signup', async (req, res, next) => {
             return res.status(400).json({error: 'El correo ya esta registrado.' })
     
         if(userByIdentification)
-            return res.status(40).json({error: 'La cedula o pasaporte ya esta registrado.' })
+            return res.status(40).json({error: 'La cédula o pasaporte ya esta registrado.' })
     
     
         // create user
@@ -89,6 +113,11 @@ router.post('/signup', async (req, res, next) => {
     }
 })
 
+/**
+ * GET /current
+ * 
+ * 
+ */
 router.get('/current', passport.authenticate('jwt', {session: false}), async (req, res) => {
     const user = await User.findById(req.user._id)
     const payload = user.getSimple()
