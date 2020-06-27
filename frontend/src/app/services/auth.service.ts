@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { UserRegister } from '../models/user-register';
 import { CookieService } from './cookie.service';
-
+import Swal from 'sweetalert2'
+import { Router } from '@angular/router';
 /**
  * Service to perform auth actions.
  */
@@ -12,7 +13,7 @@ import { CookieService } from './cookie.service';
 })
 export class AuthService  {
 
-  constructor(private http: HttpClient, private cookie: CookieService) { }
+  constructor(private http: HttpClient, private cookie: CookieService,private router: Router) { }
 
   /**
    * Perform a login on the app and save token.
@@ -24,14 +25,25 @@ export class AuthService  {
     this.http.post(`${environment.apiUrl}/login`, {
       identification,
       password
-    }).subscribe((data: any) => {
-      if(data.success){
-        this.cookie.createCookie(environment.cookieId, data.token);
-        // TODO: show success
-      } else {
-        // TODO: show error
+    }).subscribe(
+      res => {
+        console.log(res)
+        Swal.fire(
+          'Good job!',
+          'Inicio de sesion exitoso',
+          'success'
+        )
+        this.router.navigateByUrl('');
+      },
+      err => {
+        console.log(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Identificación o contraseña incorrectos'
+        })
       }
-    });
+    );
   }
 
   /**
@@ -39,7 +51,25 @@ export class AuthService  {
    * @param user user registration data.
    */
   register(user: UserRegister) {
-    return this.http.post(`${environment.apiUrl}/signup`, user);
+    return this.http.post(`${environment.apiUrl}/signup`, user).subscribe(
+      res => {
+        console.log(res)
+        Swal.fire(
+          'Good job!',
+          'Registro exitoso',
+          'success'
+        )
+        this.router.navigateByUrl('');
+      },
+      err => {
+        console.log(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ocurrio un error, revisa los datos ingresados'
+        })
+      }
+    );
   }
 
   /**

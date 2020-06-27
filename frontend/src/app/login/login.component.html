@@ -36,7 +36,7 @@
     <mat-card-actions>
       <mat-grid-list cols="1" rowHeight="2:1">
         <div style="margin-bottom: 5px;">
-          <button (click)="login()" class="login-button" mat-raised-button color="primary">Entrar</button>
+          <button [disabled]="!formIsValid()" (click)="login()" class="login-button" mat-raised-button color="primary">Entrar</button>
         </div>
         <div>
           <button class="register-button" mat-raised-button color="primary" [routerLink]="'register'">Registrarse</button>

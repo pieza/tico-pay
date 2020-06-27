@@ -1,0 +1,53 @@
+<div class="dialog-container">
+    <h1 mat-dialog-title>Información de pago</h1>
+    <div mat-dialog-content>
+        <mat-grid-list cols="2" rowHeight="3:1">
+            <mat-grid-tile>
+                <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Número de tarjeta</mat-label>
+                        <input placeholder="Ej: 4985451215231542" matInput [formControl]="cardNumber">
+                        <mat-icon matSuffix>credit_card</mat-icon>
+                        <mat-error *ngIf="cardNumber.invalid">{{getErrorMessageCardNumber()}}</mat-error>
+                      </mat-form-field>
+                </div>
+            </mat-grid-tile>
+                <mat-grid-tile>
+                <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>CVV</mat-label>
+                        <input placeholder="Ej: 551" matInput [formControl]="CVV">
+                        <mat-icon matSuffix>lock</mat-icon>
+                        <mat-error *ngIf="CVV.invalid">{{getErrorMessageCVV()}}</mat-error>
+                        <mat-hint>Código de seguridad</mat-hint>
+                      </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Mes de expiración</mat-label>
+                        <input placeholder="Ej: 11" matInput [formControl]="exp_month">
+                        <mat-icon matSuffix>date_range</mat-icon>
+                        <mat-error *ngIf="exp_month.invalid">{{getErrorMessageExp_month()}}</mat-error>
+                        <mat-hint>Mes en número</mat-hint>
+                      </mat-form-field>
+                </div>
+            </mat-grid-tile>
+                <mat-grid-tile>
+                <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Aes de expiración</mat-label>
+                        <input placeholder="Ej: 22" matInput [formControl]="exp_year">
+                        <mat-icon matSuffix>date_range</mat-icon>
+                        <mat-error *ngIf="exp_year.invalid">{{getErrorMessageExp_year()}}</mat-error>
+                        <mat-hint>Año de 2 dígitos</mat-hint>
+                      </mat-form-field>
+                </div>
+              </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+    <div mat-dialog-actions>
+      <button class="next-button" [disabled]="!formIsValid()" (click)="setParams()" mat-button [mat-dialog-close]="data" cdkFocusInitial>Continuar</button>
+    </div>
+</div>

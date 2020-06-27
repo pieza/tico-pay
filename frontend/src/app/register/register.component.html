@@ -1,7 +1,7 @@
 <div class="login">
 
   <div class="centerImg">
-    <img src="../../assets/logo.png" width="160" height="160" style="margin-top: 12vh;">
+    <img src="../../assets/logo.png" width="160" height="160" style="margin-top: 7vh;">
   </div>
   
   <mat-card class="login-card centerXY">
@@ -54,10 +54,32 @@
           </div>
         </mat-grid-tile>
         <mat-grid-tile>
+          <div class="center-input">
+              <mat-form-field appearance="standard">
+                  <mat-label>Contraseña</mat-label>
+                  <input placeholder="Ej: jhonDoe123" matInput [type]="hide ? 'password' : 'text'" [formControl]="password">
+                  <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+              </mat-form-field>
+
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <div class="center-input" style="margin-top: 10px;">
+            <mat-form-field appearance="standard">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input matInput [matDatepicker]="picker" [formControl]="date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </mat-grid-tile>
+            <mat-grid-tile>
               <div class="center-input">
                   <mat-form-field appearance="standard">
-                      <mat-label>Contraseña</mat-label>
-                      <input placeholder="Ej: jhonDoe123" matInput [type]="hide ? 'password' : 'text'" [formControl]="password">
+                      <mat-label>Repite la contraseña</mat-label>
+                      <input placeholder="Ej: jhonDoe123" matInput [type]="hide ? 'password' : 'text'" [formControl]="password2">
                       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                         </button>
@@ -65,15 +87,15 @@
   
               </div>
             </mat-grid-tile>
+            <mat-grid-tile>
+              <button class="creditcard-button" mat-raised-button color="primary" (click)="openDialog()">Añadir información de pago</button>
+            </mat-grid-tile>
           </mat-grid-list>
       </mat-card-content>
       <mat-card-actions>
         <mat-grid-list cols="1" rowHeight="2:1">
-          <div style="margin-bottom: 5px;">
-            <button (click)="login()" class="login-button" mat-raised-button color="primary">Entrar</button>
-          </div>
           <div>
-            <button class="register-button" mat-raised-button color="primary" [routerLink]="'register'">Registrarse</button>
+            <button [disabled]="!formIsValid()" (click)="register()" class="register-button" mat-raised-button color="primary">Registrarse</button>
           </div>
         </mat-grid-list>
       </mat-card-actions>

@@ -22,6 +22,12 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.username.value, this.password.value);
   }
 
+  formIsValid(){
+    if (this.password.hasError('required') && this.username.hasError('required'))
+    return false;
+    return true;
+  }
+
   getErrorMessageUsername() {
     if (this.username.hasError('required')) {
       return 'Ingrese una identificación';
