@@ -29,7 +29,7 @@ export class AuthService  {
       (res:any) => {
         this.cookie.createCookie(environment.cookieId,res.token);
         Swal.fire(
-          'Good job!',
+          'Completado!',
           'Inicio de sesion exitoso',
           'success'
         )
@@ -56,7 +56,7 @@ export class AuthService  {
       res => {
         console.log(res)
         Swal.fire(
-          'Good job!',
+          'Completado!',
           'Registro exitoso',
           'success'
         )
