@@ -26,14 +26,15 @@ export class AuthService  {
       identification,
       password
     }).subscribe(
-      res => {
-        console.log(res)
+      (res:any) => {
+        this.cookie.createCookie(environment.cookieId,res.token);
         Swal.fire(
           'Good job!',
           'Inicio de sesion exitoso',
           'success'
         )
         this.router.navigateByUrl('');
+        
       },
       err => {
         console.log(err)
