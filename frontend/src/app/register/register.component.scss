@@ -1,30 +1,50 @@
 .login {
-    background-image: url("../../../images/login_background.jpg");
-    width: 100%;
-    height: 100%;
-  }
+  background-image: url("../../../images/login_background.jpg");
+  width: 100%;
+  height: 100%;
+}
 
-  .login-card {
-    width: 200px;
+.login-card {
+  width: 500px;
+}
 
-  }
+.center {
+  margin: auto;
+  width: 50%;
+}
+.centerImg {
+  margin: auto;
+  width: 9%;
+}
+.center-input {
+margin-left: 27px;
+}
+.logo {
+background-image: url("../../../images/logo.png"); 
+}
+.login-button {
+width: 100%;
+background-color:#45c28d;
+}
+.register-button {
+width: 100%;
+background-color:#1d58b7;
+}
+.centerXY {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
 
-  .center {
-    margin: auto;
-    width: 50%;
-  }
-  
-  .centerXY {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-  }
+.login-header-image {
+  margin-top: -10px;
+  background-image: url("../../../images/logo.png");  
+  background-size: cover;
+}
 
-  .login-header-image {
-    margin-top: -10px;
-    background-image: url("../../../images/logo.png");  
-    background-size: cover;
-  }
+img {
+  border-radius: 50%;
+}

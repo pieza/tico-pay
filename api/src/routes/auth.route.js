@@ -42,11 +42,11 @@ router.post('/login', async (req, res, next) => {
         
         // user not exist
         if(!user)
-            return res.status(400).json({error: 'Usuario o contraseña incorrectos.' })
+            return res.status(401).json({error: 'Usuario o contraseña incorrectos.' })
         
         // incorrect password
         if(!user.comparePassword(req.body.password))
-            return res.status(400).json({error: 'Usuario o contraseña incorrectos.' })
+            return res.status(401).json({error: 'Usuario o contraseña incorrectos.' })
         
         // user match
         const payload = user.getSimple()

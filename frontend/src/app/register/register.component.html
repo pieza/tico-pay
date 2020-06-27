@@ -1,41 +1,84 @@
 <div class="login">
-    <mat-card class="login-card centerXY">
-    
-    <mat-card-header>
-          <div mat-card-avatar class="login-header-image"></div>
-          <mat-card-title>Registrate</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <mat-grid-list cols="1" rowHeight="2:1">
-                <div>
-                    <mat-form-field appearance="standard">
-                        <mat-label>Nombre de usuario</mat-label>
-                        <input matInput >
-                        <mat-icon matSuffix>face</mat-icon>
-                      </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field appearance="standard">
-                        <mat-label>Correo electrónico</mat-label>
-                        <input matInput >
-                        <mat-icon matSuffix>mail</mat-icon>
-                      </mat-form-field>
-                </div>
-                <div>
-                    <mat-form-field appearance="standard">
-                        <mat-label>Contraseña</mat-label>
-                        <input matInput >
-                        <mat-icon matSuffix>vpn_key</mat-icon>
+
+  <div class="centerImg">
+    <img src="../../assets/logo.png" width="160" height="160" style="margin-top: 12vh;">
+  </div>
+  
+  <mat-card class="login-card centerXY">
+  
+  <mat-card-header>
+        <div mat-card-avatar class="login-header-image"></div>
+        <mat-card-title>Registrarse</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          <mat-grid-list cols="2" rowHeight="3:1">
+            <mat-grid-tile>
+              <div class="center-input" style="margin-top: 10px;">
+                  <mat-form-field appearance="standard">
+                      <mat-label>Identificación</mat-label>
+                      <input placeholder="Ej: 117470491" matInput [formControl]="username">
+                      <mat-hint>Número de cédula</mat-hint>
+                      <mat-icon matSuffix>perm_identity</mat-icon>
+                      <mat-error *ngIf="username.invalid">{{getErrorMessageUsername()}}</mat-error>
                     </mat-form-field>
-    
-                </div>
-            </mat-grid-list>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button (click)="register()">Registrate</button>
-        </mat-card-actions>
-    
-        
-      </mat-card>
-    
-    </div>
+              </div>
+            </mat-grid-tile>
+            <mat-grid-tile>
+              <div class="center-input" style="margin-top: 10px;">
+                <mat-form-field appearance="standard">
+                    <mat-label>Nombre</mat-label>
+                    <input placeholder="Ej: Jhon" matInput [formControl]="name">
+                    <mat-icon matSuffix>face</mat-icon>
+                    <mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
+                  </mat-form-field>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <div class="center-input" style="margin-top: 10px;">
+              <mat-form-field appearance="standard">
+                  <mat-label>Apellidos</mat-label>
+                  <input placeholder="Ej: Doe" matInput [formControl]="lastName">
+                  <mat-icon matSuffix>contacts</mat-icon>
+                  <mat-error *ngIf="name.invalid">{{getErrorMessageLastName()}}</mat-error>
+                </mat-form-field>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <div class="center-input" style="margin-top: 10px;">
+            <mat-form-field appearance="standard">
+                <mat-label>Email</mat-label>
+                <input placeholder="Ej: JhonDoe@example.com" matInput [formControl]="email">
+                <mat-icon matSuffix>contact_mail</mat-icon>
+                <mat-error *ngIf="email.invalid">{{getErrorMessageMail()}}</mat-error>
+              </mat-form-field>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+              <div class="center-input">
+                  <mat-form-field appearance="standard">
+                      <mat-label>Contraseña</mat-label>
+                      <input placeholder="Ej: jhonDoe123" matInput [type]="hide ? 'password' : 'text'" [formControl]="password">
+                      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                  </mat-form-field>
+  
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+      </mat-card-content>
+      <mat-card-actions>
+        <mat-grid-list cols="1" rowHeight="2:1">
+          <div style="margin-bottom: 5px;">
+            <button (click)="login()" class="login-button" mat-raised-button color="primary">Entrar</button>
+          </div>
+          <div>
+            <button class="register-button" mat-raised-button color="primary" [routerLink]="'register'">Registrarse</button>
+          </div>
+        </mat-grid-list>
+      </mat-card-actions>
+  
+      
+    </mat-card>
+  
+  </div>

@@ -12,6 +12,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { RegisterComponent } from './register/register.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,8 +29,9 @@ import { RegisterComponent } from './register/register.component';
     MatButtonModule,
     MatInputModule,
     MatIconModule,
-    MatGridListModule
-
+    MatGridListModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
