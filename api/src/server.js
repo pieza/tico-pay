@@ -2,7 +2,6 @@ const express = require("express")
 const morgan = require("morgan")
 const path = require("path")
 const passport = require("passport")
-const session = require("express-session")
 const cors = require('cors')
 const app = express()
 
@@ -13,6 +12,8 @@ app.set("port", process.env.PORT || 3000)
 app.use(cors())
 app.use(morgan("dev"))
 app.use(express.json())
+require('./security/passport')
+app.use(passport.initialize())
 
 
 // static files

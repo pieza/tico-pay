@@ -5,6 +5,7 @@ import { UserRegister } from '../models/user-register';
 import { CookieService } from './cookie.service';
 import Swal from 'sweetalert2'
 import { Router } from '@angular/router';
+import { User } from '../models/user';
 /**
  * Service to perform auth actions.
  */
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService  {
-
+  user: User
   constructor(private http: HttpClient, private cookie: CookieService,private router: Router) { }
 
   /**
@@ -28,13 +29,15 @@ export class AuthService  {
     }).subscribe(
       (res:any) => {
         this.cookie.createCookie(environment.cookieId,res.token);
-        Swal.fire(
-          'Completado!',
-          'Inicio de sesion exitoso',
-          'success'
-        )
-        this.router.navigateByUrl('');
-        
+        // TODO: add loading 
+        this.current().then((user: User) => {
+          this.router.navigateByUrl(user.type);
+          Swal.fire(
+            'Inicio de sesion exitoso!',
+            `Bienvenido ${user.name}!`,
+            'success'
+          );
+        });
       },
       err => {
         console.log(err)
@@ -77,16 +80,22 @@ export class AuthService  {
    * Gets the current user logged.
    */
   current() {
-    return this.http.get(`${environment.apiUrl}/current`, { headers: this.getHeaders() });
+    return new Promise((resolve, reject) => {
+      return this.http.get(`${environment.apiUrl}/current`).subscribe((data: any) => {
+        this.user = data ? data : null;
+        resolve(this.user);
+      });
+    });
+    
   }
 
   /**
    * Create a default headers with authorization token.
    */
-  getHeaders(): HttpHeaders {
-    return new HttpHeaders({
+  getHeaders(): any {
+    return { headers: new HttpHeaders({
       Authorization: this.cookie.getCookie(environment.cookieId)
-    });
+    })};
   }
 
   
