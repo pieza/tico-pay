@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DialogData } from '../register/register.component';
 import { Validators, FormControl } from '@angular/forms';
-import { CreditCard } from '../models/credit-card';
+import { CreditCard } from '../../models/credit-card';
 
 @Component({
   selector: 'app-credit-dialog',

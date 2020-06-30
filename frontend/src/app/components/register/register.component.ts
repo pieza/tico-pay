@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import swal from 'sweetalert2'
 import { Validators, FormControl } from '@angular/forms';
-import { AuthService } from '../services/auth.service';
-import { CreditCard } from '../models/credit-card';
+import { AuthService } from '../../services/auth.service';
+import { CreditCard } from '../../models/credit-card';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CreditDialogComponent } from '../credit-dialog/credit-dialog.component';
 
