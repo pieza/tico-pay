@@ -50,10 +50,10 @@ router.post('/login', async (req, res, next) => {
         
         // user match
         const payload = user.getSimple()
-        
+
         jtw.sign(payload,
             process.env.SECRET_JWT_KEY, 
-            { expiresIn: process.env.TOKEN_EXPIRATION }, 
+            { expiresIn: parseInt(process.env.TOKEN_EXPIRATION) }, 
             (err, token) => {
                 if(err)
                     next(err)

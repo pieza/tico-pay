@@ -28,7 +28,7 @@ export class AuthService  {
       password
     }).subscribe(
       (res:any) => {
-        this.cookie.createCookie(environment.cookieId,res.token);
+        this.cookie.createCookie(environment.cookieId, res.token);
         // TODO: add loading 
         this.current().then((user: User) => {
           this.router.navigateByUrl(user.type);
@@ -81,8 +81,11 @@ export class AuthService  {
    */
   current() {
     return new Promise((resolve, reject) => {
-      return this.http.get(`${environment.apiUrl}/current`).subscribe((data: any) => {
+      return this.http.get(`${environment.apiUrl}/current`, this.getHeaders()).subscribe((data: any) => {
         this.user = data ? data : null;
+        resolve(this.user);
+      }, error => {
+        this.user = null;
         resolve(this.user);
       });
     });

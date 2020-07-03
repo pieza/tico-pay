@@ -14,6 +14,7 @@ export class LoginGuardService implements CanActivate {
 
   async canActivate(): Promise<boolean> {
     await this.auth.current()
+
     console.log(this.auth.user)
     if (this.auth.user?.type) {
       this.router.navigate([this.auth.user.type])
