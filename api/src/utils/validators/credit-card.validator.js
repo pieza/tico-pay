@@ -20,7 +20,7 @@ module.exports = function validateCreditCardInput(data) {
     if (isEmpty(data.CVV)) 
         return 'El código de seguridad no puede estar vacio.'
 
-    if (!Validator.isLength(data.CVV, { min: 3, max: 3 })) 
+    if (!Validator.isLength(data.CVV + '', { min: 3, max: 3 })) 
         return 'El número de seguridad no es válido.'
 
     if (isEmpty(data.expiration_month)) 

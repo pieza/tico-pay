@@ -1,0 +1,23 @@
+.client-card {
+    max-width: 400px;
+  }
+  
+.client-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+}
+
+.right {
+    position: absolute;
+    right: 0px;
+}
+
+.recharge-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+.full-width {
+    width: 100%;
+}

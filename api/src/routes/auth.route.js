@@ -116,7 +116,7 @@ router.post('/signup', async (req, res, next) => {
 /**
  * GET /current
  * 
- * 
+ * Get the actual user logged in the app.
  */
 router.get('/current', passport.authenticate('jwt', {session: false}), async (req, res) => {
     return res.status(200).json(req.user)

@@ -9,6 +9,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { RegisterComponent } from './components/register/register.component';
@@ -40,6 +41,7 @@ import { ClientComponent } from './components/client/client.component';
     MatButtonModule,
     MatInputModule,
     MatIconModule,
+    MatToolbarModule,
     MatGridListModule,
     FormsModule,
     ReactiveFormsModule,

@@ -8,6 +8,7 @@ export class User {
     lastname?: string;
     email?: string;
     birthday?: Date;
+    balance?: number;
     password?: string;
     credit_card?: CreditCard;
 }
