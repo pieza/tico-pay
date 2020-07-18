@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
 import { CreditCard } from 'src/app/models/credit-card';
 import { AuthService } from 'src/app/services/auth.service';
+import { RouteService } from 'src/app/services/route.service';
 
 @Component({
   selector: 'app-admin',
@@ -10,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private routeService: RouteService) { }
 
   hide = true;
   username = new FormControl('', [Validators.required, Validators.maxLength(9)]);
@@ -22,6 +23,13 @@ export class AdminComponent implements OnInit {
   date = new FormControl('', [Validators.required]);
   userType = 'admin';
   selectedRoute: any;
+
+  routeName = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+  routePrice = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+  routeProvince = new FormControl('', [Validators.required, Validators.maxLength(100)]);
+  routeCanton = new FormControl('', [Validators.required, Validators.email]);
+  routeDistrict = new FormControl('', [Validators.required]);
+
   getErrorMessageUsername() {
     if (this.username.hasError('required')) {
       return 'Ingrese una identificación';
@@ -60,6 +68,13 @@ export class AdminComponent implements OnInit {
     return true;
   }
 
+  formIsValid2() {
+    if (this.routeName.hasError('required')) {
+      return false;
+    }
+    return true;
+  }
+
   register() {
     this.authService.registerAdmin({
       identification: this.username.value,
@@ -69,6 +84,16 @@ export class AdminComponent implements OnInit {
       password: this.password.value,
       password2: this.password2.value,
       birthday: this.date.value
+    });
+  }
+
+  registerRoute() {
+    this.routeService.create({
+      name: this.routeName.value,
+      price: this.routePrice.value,
+      province: this.routePrice.value,
+      district: this.routeDistrict.value,
+      canton: this.routeCanton.value
     });
   }
 

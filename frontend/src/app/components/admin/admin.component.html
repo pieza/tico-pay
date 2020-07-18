@@ -107,7 +107,67 @@
                   </mat-grid-tile>
             </mat-grid-list>
         </mat-tab>
-        <mat-tab label="Second"> Content 2 </mat-tab>
+
+        <mat-tab label="Registrar ruta"> 
+
+            <mat-grid-list cols="2" rowHeight="3:1">
+                  <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                      <mat-form-field appearance="standard">
+                          <mat-label>Nombre de la ruta</mat-label>
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routeName">
+                          <mat-icon matSuffix>home</mat-icon>
+                          <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                        </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                      <mat-form-field appearance="standard">
+                          <mat-label>Precio</mat-label>
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routePrice">
+                          <mat-icon matSuffix>attach_money</mat-icon>
+                          <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                        </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                      <mat-form-field appearance="standard">
+                          <mat-label>Provincia</mat-label>
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routeProvince">
+                          <mat-icon matSuffix>place</mat-icon>
+                          <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                        </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                      <mat-form-field appearance="standard">
+                          <mat-label>Cantón</mat-label>
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routeCanton">
+                          <mat-icon matSuffix>pin_drop</mat-icon>
+                          <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                        </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                      <mat-form-field appearance="standard">
+                          <mat-label>Distrito</mat-label>
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routeDistrict">
+                          <mat-icon matSuffix>near_me</mat-icon>
+                          <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                        </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div class="left-input">
+                        <button [disabled]="!formIsValid2()" (click)="registerRoute()" class="register-button" mat-raised-button color="primary">Reigstrar ruta</button>
+                    </div>
+                  </mat-grid-tile>
+            </mat-grid-list>
+        </mat-tab>
         <mat-tab label="Third"> Content 3 </mat-tab>
       </mat-tab-group>
   </mat-card>
