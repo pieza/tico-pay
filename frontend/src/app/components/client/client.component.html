@@ -6,20 +6,33 @@
     </mat-toolbar>
 </p>
 
-<mat-card>
-        <mat-grid-list cols="2" rowHeight="8:2">
-            <mat-grid-tile>
-                <form class="recharge-form">
-                    <mat-form-field class="full-width">
-                      <mat-label>Digite el monto</mat-label>
-                      <input type="number" matInput placeholder="1000" name="amount" [(ngModel)]="amount">
-                    </mat-form-field>
-                  </form>              
-            </mat-grid-tile>
-    
-            <mat-grid-tile>
-                <button mat-raised-button color="primary" (click)="submit()">Recargar</button>
-            </mat-grid-tile>
-        </mat-grid-list>
+    <mat-card class="login-card centerXY"> 
+        <mat-card-header>
+            <div mat-card-avatar class="login-header-image"></div>
+            <mat-card-title>{{auth.user.name}}</mat-card-title>
+        </mat-card-header>
+          <mat-card-content>
+            <mat-grid-list cols="1" rowHeight="6:1" style="margin-top: 30px;">
+                <mat-grid-tile>
+                    <h2>
+                        Saldo actual: ₡ {{auth.user.balance}}
+                    </h2>
+                </mat-grid-tile>
+              <mat-grid-tile>
+                <mat-form-field appearance="standard">
+                    <mat-label>Monto a recargar</mat-label>
+                    <input placeholder="Ej: 3200" matInput  [(ngModel)]="amount">
+                    <mat-hint>Digite el monto</mat-hint>
+                    <mat-icon matSuffix>attach_money</mat-icon>
+                  </mat-form-field>
+              </mat-grid-tile>
+            </mat-grid-list>
+            </mat-card-content>
+            <mat-card-actions>
+                <mat-grid-list cols="1" rowHeight="2:1">
+                    <div>
+                        <button mat-raised-button color="primary" class="login-button" (click)="submit()">Recargar</button>
+                    </div>
+                </mat-grid-list>
+            </mat-card-actions>
     </mat-card>
-
