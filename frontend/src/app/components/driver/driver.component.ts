@@ -28,4 +28,8 @@ export class DriverComponent implements OnInit {
       return 'Ingrese una identificación';
     }
   }
+
+  logout() {
+    this.authService.logout();
+  }
 }
