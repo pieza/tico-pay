@@ -1,0 +1,22 @@
+.centerXY {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  
+  .menu-card {
+    width: 250px;
+  }
+  .center-input {
+    margin-left: 27px;
+  }
+
+  .charge-button {
+    width: 100%;
+    background-color:#45c28d;
+    margin-bottom: 100px;
+  }
