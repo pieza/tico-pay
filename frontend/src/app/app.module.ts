@@ -23,6 +23,7 @@ import { DriverComponent } from './components/driver/driver.component';
 import { ClientComponent } from './components/client/client.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDividerModule} from '@angular/material/divider';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +52,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatNativeDateModule,
     MatDialogModule,
     MatTabsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDividerModule
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]
