@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt-nodejs')
 const UserSchema = new Schema({
     identification: { type: String, required: true },
     type: { type: String, required: true, default: 'client'},
+    route: { type: Schema.Types.ObjectId, ref: 'Route' },
     name: { type: String, require: true },
     lastname: { type: String, require: true },
     email: { type: String, require: true },
