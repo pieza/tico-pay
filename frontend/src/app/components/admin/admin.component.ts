@@ -28,7 +28,7 @@ export class AdminComponent implements OnInit {
   routeName = new FormControl('', [Validators.required, Validators.maxLength(10)]);
   routePrice = new FormControl('', [Validators.required, Validators.maxLength(10)]);
   routeProvince = new FormControl('', [Validators.required, Validators.maxLength(100)]);
-  routeCanton = new FormControl('', [Validators.required, Validators.email]);
+  routeCanton = new FormControl('', [Validators.required, Validators.maxLength(100)]);
   routeDistrict = new FormControl('', [Validators.required]);
 
   getErrorMessageUsername() {
