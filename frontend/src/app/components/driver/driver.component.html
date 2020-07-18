@@ -1,12 +1,9 @@
 
-
-<p>
-    <mat-toolbar color="primary">
-        <span>Tico-Pay</span>
-        <span class="spacer"></span>
-        <button mat-raised-button color="info" (click)="logout()">Cerrar Sesión</button>
-    </mat-toolbar>
-</p>
+<mat-toolbar color="primary">
+    <span>Tico-Pay</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="info" (click)="logout()">Cerrar Sesión</button>
+</mat-toolbar>
 
 <mat-card class="menu-card centerXY">
     <mat-card-header>
@@ -31,7 +28,7 @@
                   </mat-form-field>
             </div>
           <div style="margin-bottom: 5px;">
-            <button class="charge-button" mat-raised-button color="primary">Cobrar cliente</button>
+            <button class="charge-button" mat-raised-button color="primary" (click)="chargeUser()">Cobrar cliente</button>
           </div>
         </mat-grid-list>
       </mat-card-actions>

@@ -16,7 +16,8 @@ export class DriverComponent implements OnInit {
   constructor(private authService : AuthService, private paymentService : PaymentService) { }
 
   ngOnInit(): void {
-    this.routeAssigned = this.authService.user.route;
+    this.authService.user.route
+    this.routeAssigned = this.authService.user.route.name;
   }
 
   chargeUser() {
