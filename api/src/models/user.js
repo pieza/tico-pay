@@ -13,6 +13,7 @@ const UserSchema = new Schema({
     password: { type: String, require: true },
     birthday: { type: Date, required: true },
     balance: { type: Number, required: true, default: 0 },
+    active: { type: Boolean, required: true, default: true },
     credit_card: { 
         number: { type: Number, required: true },
         CVV: { type: Number, required: true },

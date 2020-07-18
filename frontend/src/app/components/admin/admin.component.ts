@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private authService : AuthService) { }
+  constructor(private authService: AuthService) { }
 
   hide = true;
   username = new FormControl('', [Validators.required, Validators.maxLength(9)]);
@@ -21,7 +21,7 @@ export class AdminComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   date = new FormControl('', [Validators.required]);
   userType = 'admin';
-  selectedRoute : any;
+  selectedRoute: any;
   getErrorMessageUsername() {
     if (this.username.hasError('required')) {
       return 'Ingrese una identificación';
@@ -52,26 +52,24 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  formIsValid(){
+  formIsValid() {
     console.log(!!this.username.hasError('required'))
-    if (this.username.hasError('required')){
+    if (this.username.hasError('required')) {
       return false;
     }
     return true;
   }
 
   register() {
-    this.authService.register(
-      {
-        identification:this.username.value,
-        name:this.name.value,
-        lastname:this.lastName.value,
-        email: this.email.value,
-        password: this.password.value,
-        password2: this.password2.value,
-        birthday: this.date.value
-      }
-      );
+    this.authService.registerAdmin({
+      identification: this.username.value,
+      name: this.name.value,
+      lastname: this.lastName.value,
+      email: this.email.value,
+      password: this.password.value,
+      password2: this.password2.value,
+      birthday: this.date.value
+    });
   }
 
   ngOnInit(): void {

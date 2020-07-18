@@ -44,7 +44,7 @@ export class AuthService  {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Identificación o contraseña incorrectos'
+          text: err.error || 'Identificación o contraseña incorrectos'
         })
       }
     );
@@ -86,7 +86,33 @@ export class AuthService  {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Ocurrio un error, revisa los datos ingresados'
+          text: err.error || 'Ocurrio un error, revisa los datos ingresados'
+        })
+      }
+    );
+  }
+
+  /**
+   * 
+   * @param user user registration data.
+   */
+  registerAdmin(user: UserRegister) {
+    return this.http.post(`${environment.apiUrl}/signupAdmin`, user, this.getHeaders()).subscribe(
+      res => {
+        console.log(res)
+        Swal.fire(
+          'Completado!',
+          'Registro exitoso',
+          'success'
+        )
+        this.router.navigateByUrl('');
+      },
+      err => {
+        console.log(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: err.error || 'Ocurrio un error, revisa los datos ingresados'
         })
       }
     );

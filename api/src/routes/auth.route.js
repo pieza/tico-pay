@@ -47,6 +47,9 @@ router.post('/login', async (req, res, next) => {
         // incorrect password
         if(!user.comparePassword(req.body.password))
             return res.status(401).json({error: 'Usuario o contraseña incorrectos.' })
+
+        if(!user.active)
+            return res.status(401).json({error: 'El usuario se encuentra deshabilitado.' })
         
         // user match
         const payload = user.getSimple()
@@ -93,7 +96,7 @@ router.post('/signup', async (req, res, next) => {
             return res.status(400).json({error: 'El correo ya esta registrado.' })
     
         if(userByIdentification)
-            return res.status(40).json({error: 'La cédula o pasaporte ya esta registrado.' })
+            return res.status(400).json({error: 'La cédula o pasaporte ya esta registrado.' })
     
     
         // create user
@@ -104,6 +107,39 @@ router.post('/signup', async (req, res, next) => {
             birthday: req.body.birthday,
             credit_card: req.body.credit_card,
         })
+        newUser.password = newUser.encryptPassword(req.body.password)
+    
+        // save user
+        newUser.save().then(user => res.json(user))
+
+    } catch(err) {
+        next(err)
+    }
+})
+
+/** 
+ * POST /signupAdmin 
+ * 
+ * Register a new user in the app.
+ * 
+ * @body     user object
+ * @response user created.
+ */
+router.post('/signupAdmin', async (req, res, next) => {
+    try {
+        const userByEmail = await User.findOne({ email: req.body.email })
+        const userByIdentification = await User.findOne({ identification: req.body.identification })
+    
+        // email already exist
+        if(userByEmail)
+            return res.status(400).json({error: 'El correo ya esta registrado.' })
+    
+        if(userByIdentification)
+            return res.status(400).json({error: 'La cédula o pasaporte ya esta registrado.' })
+    
+    
+        // create user
+        const newUser = new User(req.body)
         newUser.password = newUser.encryptPassword(req.body.password)
     
         // save user
