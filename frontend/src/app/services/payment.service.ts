@@ -33,7 +33,7 @@ export class PaymentService {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err.error
+          text: err.error.error || 'Ha ocurrido un error.'
         })
       }
     );
@@ -60,7 +60,7 @@ export class PaymentService {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err.error
+          text: err.error.error || 'Ha ocurrido un error.'
         })
       }
     );

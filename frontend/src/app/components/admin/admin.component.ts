@@ -4,6 +4,7 @@ import { CreditCard } from 'src/app/models/credit-card';
 import { AuthService } from 'src/app/services/auth.service';
 import { RouteService } from 'src/app/services/route.service';
 import Swal from 'sweetalert2';
+import { Route } from 'src/app/models/route';
 
 @Component({
   selector: 'app-admin',
@@ -24,6 +25,7 @@ export class AdminComponent implements OnInit {
   date = new FormControl('', [Validators.required]);
   userType = 'admin';
   selectedRoute: any;
+  routesDriver: Route[] = [];
 
   routeName = new FormControl('', [Validators.required, Validators.maxLength(10)]);
   routePrice = new FormControl('', [Validators.required, Validators.maxLength(10)]);
@@ -80,6 +82,7 @@ export class AdminComponent implements OnInit {
     this.authService.registerAdmin({
       identification: this.username.value,
       type: this.userType,
+      route: this.selectedRoute,
       name: this.name.value,
       lastname: this.lastName.value,
       email: this.email.value,
@@ -111,11 +114,25 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  getRoutes() {
+    this.routeService.find().subscribe(response => {
+      console.log(response)
+      this.routesDriver = response;
+    }, error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.error.error  || 'Ha ocurrido un error.'
+      })
+    })
+  }
+
   logout() {
     this.authService.logout();
   }
 
   ngOnInit(): void {
+    this.getRoutes();
   }
 
 }

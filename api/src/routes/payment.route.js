@@ -40,7 +40,7 @@ router.post('/charge', passport.authenticate('jwt', {session: false}), async (re
         const { identification } = req.body
 
         const driver = await User.findById(req.user._id).populate('route')
-        const client = await User.findOne(identification)
+        const client = await User.findOne({ identification })
 
         if(!driver.type == 'driver')
             return res.status(401).json({ error: 'Su cuenta no puede realizar esta acción.' }) 

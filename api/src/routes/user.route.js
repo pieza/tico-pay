@@ -11,7 +11,7 @@ const passport = require('passport')
  */
 router.get('/users', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
-        const users = User.find(req.query).populate('route')
+        const users = await User.find(req.query).populate('route')
         
         return res.json(users)
     } catch(err) { next(err) }
@@ -25,7 +25,7 @@ router.get('/users', passport.authenticate('jwt', {session: false}), async (req,
  */
 router.get('/users/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
-        const route = User.findById(req.params.id).populate('route')
+        const route = await User.findById(req.params.id).populate('route')
         
         return res.json(route)
     } catch(err) { next(err) }

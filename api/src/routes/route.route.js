@@ -11,8 +11,8 @@ const passport = require('passport')
  */
 router.get('/routes', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
-        const routes = Route.find(req.query)
-        
+        const routes = await Route.find(req.query)
+
         return res.json(routes)
     } catch(err) { next(err) }
     
@@ -25,7 +25,7 @@ router.get('/routes', passport.authenticate('jwt', {session: false}), async (req
  */
 router.get('/routes/:id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
-        const route = Route.findById(req.params.id)
+        const route = await Route.findById(req.params.id)
         
         return res.json(route)
     } catch(err) { next(err) }
