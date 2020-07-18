@@ -11,9 +11,9 @@ const validateLoginInput = require('../utils/validators/login.validator')
  * 
  * Perform a logout of the app, make token invalid.
  */
-router.get('/logout', (req, res) => {
+router.get('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
     req.logout()
-    res.send('success')
+    return res.status(200).json(true)
 })
 
 /** 

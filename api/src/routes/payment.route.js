@@ -5,24 +5,26 @@ const passport = require('passport')
 const validateCreditCard = require('../utils/validators/credit-card.validator')
 
 /**
- * GET /recharge
+ * POST /recharge
  * 
  * Add balance to self account.
  */
-router.post('/recharge', passport.authenticate('jwt', {session: false}), async (req, res) => {
-    const { amount } = req.body
+router.post('/recharge', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    try {
+        const { amount } = req.body
 
-    const user = await User.findById(req.user._id)
-
-    const error = validateCreditCard(user.credit_card)
-
-    if(error)
-        return res.status(500).json({ error: 'Método de pago inválido, por favor verifique sus datos.' })
-
-    user.balance += amount
-    user.save()
-
-    return res.status(200).json(true)
+        const user = await User.findById(req.user._id)
+    
+        const error = validateCreditCard(user.credit_card)
+    
+        if(error)
+            return res.status(500).json({ error: 'Método de pago inválido, por favor verifique sus datos.' })
+    
+        user.balance += amount
+        user.save()
+    
+        return res.status(200).json(true)
+    } catch(err) { next(err) }
 })
 
 module.exports = router

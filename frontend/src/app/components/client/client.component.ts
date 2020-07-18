@@ -19,4 +19,8 @@ export class ClientComponent implements OnInit {
     this.payment.recharge(this.amount);
   }
 
+  logout() {
+    this.auth.logout();
+  }
+
 }
