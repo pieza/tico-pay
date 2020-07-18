@@ -125,7 +125,7 @@ router.post('/signup', async (req, res, next) => {
  * @body     user object
  * @response user created.
  */
-router.post('/signupAdmin', async (req, res, next) => {
+router.post('/signupAdmin', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
         const userByEmail = await User.findOne({ email: req.body.email })
         const userByIdentification = await User.findOne({ identification: req.body.identification })

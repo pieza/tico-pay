@@ -15,10 +15,10 @@ const UserSchema = new Schema({
     balance: { type: Number, required: true, default: 0 },
     active: { type: Boolean, required: true, default: true },
     credit_card: { 
-        number: { type: Number, required: true },
-        CVV: { type: Number, required: true },
-        expiration_month: { type: Number, required: true },
-        expiration_year: { type: Number, required: true }
+        number: { type: Number },
+        CVV: { type: Number },
+        expiration_month: { type: Number },
+        expiration_year: { type: Number }
     }
 })
 
