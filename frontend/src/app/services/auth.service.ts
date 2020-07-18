@@ -44,7 +44,7 @@ export class AuthService  {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err.error || 'Identificación o contraseña incorrectos'
+          text: err.error.error || 'Identificación o contraseña incorrectos'
         })
       }
     );
@@ -86,7 +86,7 @@ export class AuthService  {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err.error || 'Ocurrio un error, revisa los datos ingresados'
+          text: err.error.error || 'Ocurrio un error, revisa los datos ingresados'
         })
       }
     );
@@ -112,7 +112,7 @@ export class AuthService  {
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: err.error || 'Ocurrio un error, revisa los datos ingresados'
+          text: err.error.error || 'Ocurrio un error, revisa los datos ingresados'
         })
       }
     );

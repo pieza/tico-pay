@@ -18,9 +18,6 @@ module.exports = function validateLoginInput(data) {
    
     if (isEmpty(data.password)) 
         return 'La contraseña no puede estar vacia.'
-
-    if (!Validator.isLength(data.password, { min: 5, max: 30 })) 
-        return 'La contraseña debe tener entre 5 y 30 caracteres.'
    
     return false
 }

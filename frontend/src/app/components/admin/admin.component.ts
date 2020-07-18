@@ -79,6 +79,7 @@ export class AdminComponent implements OnInit {
   register() {
     this.authService.registerAdmin({
       identification: this.username.value,
+      type: this.userType,
       name: this.name.value,
       lastname: this.lastName.value,
       email: this.email.value,
@@ -105,7 +106,7 @@ export class AdminComponent implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: error.error
+        text: error.error.error  || 'Ha ocurrido un error.'
       })
     });
   }
@@ -113,7 +114,7 @@ export class AdminComponent implements OnInit {
   logout() {
     this.authService.logout();
   }
-  
+
   ngOnInit(): void {
   }
 
