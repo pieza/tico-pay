@@ -1,1 +1,113 @@
-<p>admin works!</p>
+
+  <mat-card class="login-card centerXY">
+    <mat-tab-group>
+        <mat-tab label="Crear usuario"> 
+            <mat-grid-list cols="2" rowHeight="3:1">
+                <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Identificación</mat-label>
+                            <input placeholder="Ej: 117470491" matInput [formControl]="username">
+                            <mat-hint>Número de cédula</mat-hint>
+                            <mat-icon matSuffix>perm_identity</mat-icon>
+                            <mat-error *ngIf="username.invalid">{{getErrorMessageUsername()}}</mat-error>
+                          </mat-form-field>
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                      <mat-form-field appearance="standard">
+                          <mat-label>Nombre</mat-label>
+                          <input placeholder="Ej: Jhon" matInput [formControl]="name">
+                          <mat-icon matSuffix>face</mat-icon>
+                          <mat-error *ngIf="name.invalid">{{getErrorMessageName()}}</mat-error>
+                        </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Apellidos</mat-label>
+                        <input placeholder="Ej: Doe" matInput [formControl]="lastName">
+                        <mat-icon matSuffix>contacts</mat-icon>
+                        <mat-error *ngIf="name.invalid">{{getErrorMessageLastName()}}</mat-error>
+                      </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="center-input" style="margin-top: 10px;">
+                  <mat-form-field appearance="standard">
+                      <mat-label>Email</mat-label>
+                      <input placeholder="Ej: JhonDoe@example.com" matInput [formControl]="email">
+                      <mat-icon matSuffix>contact_mail</mat-icon>
+                      <mat-error *ngIf="email.invalid">{{getErrorMessageMail()}}</mat-error>
+                    </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="center-input">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Contraseña</mat-label>
+                        <input placeholder="Ej: jhonDoe123" matInput [type]="hide ? 'password' : 'text'" [formControl]="password">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                          </button>
+                    </mat-form-field>
+      
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="center-input" style="margin-top: 10px;">
+                  <mat-form-field appearance="standard">
+                    <mat-label>Fecha de nacimiento</mat-label>
+                    <input matInput [matDatepicker]="picker" [formControl]="date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="center-input">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Repite la contraseña</mat-label>
+                            <input placeholder="Ej: jhonDoe123" matInput [type]="hide ? 'password' : 'text'" [formControl]="password2">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                              </button>
+                        </mat-form-field>
+        
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="center-input">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Seleccione el tipo de usuario</mat-label>
+                            <mat-select [(value)]="userType">
+                              <mat-option value="driver">Conductor</mat-option>
+                              <mat-option value="admin">Administrador</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile *ngIf="userType=='driver'">
+                    <div class="center-input">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Seleccione una ruta</mat-label>
+                            <mat-select [(value)]="selectedRoute">
+                              <mat-option value="route1">Ruta a</mat-option>
+                              <mat-option value="route2">Ruta b</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="left-input">
+                        <button [disabled]="!formIsValid()" (click)="register()" class="register-button" mat-raised-button color="primary">Registrarse</button>
+                    </div>
+                  </mat-grid-tile>
+            </mat-grid-list>
+        </mat-tab>
+        <mat-tab label="Second"> Content 2 </mat-tab>
+        <mat-tab label="Third"> Content 3 </mat-tab>
+      </mat-tab-group>
+  </mat-card>

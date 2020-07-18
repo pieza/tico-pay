@@ -21,6 +21,8 @@ import { CreditDialogComponent } from './components/credit-dialog/credit-dialog.
 import { AdminComponent } from './components/admin/admin.component';
 import { DriverComponent } from './components/driver/driver.component';
 import { ClientComponent } from './components/client/client.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatSelectModule} from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +49,9 @@ import { ClientComponent } from './components/client/client.component';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatDialogModule 
+    MatDialogModule,
+    MatTabsModule,
+    MatSelectModule
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]

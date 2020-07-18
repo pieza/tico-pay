@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { PaymentService } from 'src/app/services/payment.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-driver',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DriverComponent implements OnInit {
 
-  constructor() { }
+  routeAssigned;
+  idToCharge = new FormControl('', [Validators.required, Validators.maxLength(9)]);
+
+  constructor(private authService : AuthService, private paymentService : PaymentService) { }
 
   ngOnInit(): void {
+    this.routeAssigned = this.authService.user.route;
   }
 
+  chargeUser() {
+    this.paymentService.charge(this.idToCharge.value);
+  }
+
+  getErrorMessageIdToCharge() {
+    if (this.idToCharge.hasError('required')) {
+      return 'Ingrese una identificación';
+    }
+  }
 }

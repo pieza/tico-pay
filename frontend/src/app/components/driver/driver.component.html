@@ -5,17 +5,20 @@
       <mat-card-content>
         <mat-grid-list cols="1" rowHeight="2:1">
             <div class="center-input" style="margin-top: 10px;">
-                <p>Ruta asignada: xxxx</p>
+                <p>Ruta asignada: {{routeAssigned}}</p>
             </div>
         </mat-grid-list>
     </mat-card-content>
     <mat-card-actions>
         <mat-grid-list cols="1" rowHeight="2:1">
             <div class="center-input">
+                
+              <h3 class="title-no-margin">Cobrar usuario:</h3>
                 <mat-form-field appearance="standard">
                     <mat-label>Identificacion del cliente</mat-label>
-                    <input placeholder="Ej: jhonDoe123" matInput>
-                </mat-form-field>
+                    <input placeholder="Ej: 117470491" matInput [formControl]="idToCharge">
+                    <mat-error *ngIf="idToCharge.invalid">{{getErrorMessageIdToCharge()}}</mat-error>
+                  </mat-form-field>
             </div>
           <div style="margin-bottom: 5px;">
             <button class="charge-button" mat-raised-button color="primary">Cobrar cliente</button>
