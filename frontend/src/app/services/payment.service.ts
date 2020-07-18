@@ -11,6 +11,11 @@ export class PaymentService {
 
   constructor(private http: HttpClient, private auth: AuthService) { }
 
+  /**
+   * Recharge to a user.
+   * 
+   * @param amount amount to recharge.
+   */
   recharge(amount: number) {
     return this.http.post(`${environment.apiUrl}/recharge`, { amount }, this.auth.getHeaders()).subscribe(
       res => {
@@ -21,6 +26,34 @@ export class PaymentService {
             'success'
           );
           this.auth.current();
+        }
+      },
+      err => {
+        console.log(err)
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: err.error
+        })
+      }
+    );
+  }
+
+  /**
+   * Reduce the balance of an user.
+   * 
+   * @param identification of the user to charge.
+   * @param amount         amount to charge
+   */
+  charge(identification: string, amount: number) {
+    return this.http.post(`${environment.apiUrl}/charge`, { identification, amount }, this.auth.getHeaders()).subscribe(
+      res => {
+        if(res) {
+          Swal.fire(
+            'Completado!',
+            'Cobro exitoso!',
+            'success'
+          );
         }
       },
       err => {

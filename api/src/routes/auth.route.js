@@ -64,6 +64,7 @@ router.post('/login', async (req, res, next) => {
             }
         )
     } catch(err) {
+        console.log(err)
         return res.status(500).json({error: 'Ha ocurrido un error al iniciar sesión.' })
     }
 })
@@ -119,7 +120,8 @@ router.post('/signup', async (req, res, next) => {
  * Get the actual user logged in the app.
  */
 router.get('/current', passport.authenticate('jwt', {session: false}), async (req, res) => {
-    return res.status(200).json(req.user)
+    const user = await User.findById(req.user._id).populate('route')
+    return res.status(200).json(user)
 })
 
 module.exports = router

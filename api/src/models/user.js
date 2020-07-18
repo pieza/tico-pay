@@ -49,6 +49,7 @@ UserSchema.methods.comparePassword = function (password) {
 UserSchema.methods.getSimple = function () {
     return { 
         _id: this._id,
+        type: this.type,
         name: this.name, 
         lastname: this.lastname,
         email: this.email,

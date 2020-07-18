@@ -11,6 +11,9 @@ const validateCreditCard = require('../utils/validators/credit-card.validator')
  */
 router.post('/recharge', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
+        if(!req.user.type == 'client')
+            return res.status(401).json({ error: 'No puede realizar esta acción.' }) 
+
         const { amount } = req.body
 
         const user = await User.findById(req.user._id)
@@ -22,6 +25,34 @@ router.post('/recharge', passport.authenticate('jwt', {session: false}), async (
     
         user.balance += amount
         user.save()
+    
+        return res.status(200).json(true)
+    } catch(err) { next(err) }
+})
+
+/**
+ * POST /charge
+ * 
+ * Reduce balance of client account by identification.
+ */
+router.post('/charge', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    try {
+        const { identification, amount } = req.body
+
+        const driver = await User.findById(req.user._id)
+        const client = await User.findOne(identification)
+    
+        if(!driver.type == 'driver')
+            return res.status(401).json({ error: 'Su cuenta no puede realizar esta acción.' }) 
+        
+        if(!client)
+            return res.status(500).json({ error: 'El usuario no existe.' })
+        
+        if(amount > client.balance)
+            return res.status(500).json({ error: 'El usuario no posee suficientes fondos.' })
+    
+        client.balance -= amount
+        client.save()
     
         return res.status(200).json(true)
     } catch(err) { next(err) }

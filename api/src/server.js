@@ -22,6 +22,7 @@ app.use(express.static(path.join(__dirname, "..", "public")))
 // routes
 app.use(process.env.API_PATH, require("./routes/auth.route"))
 app.use(process.env.API_PATH, require("./routes/payment.route"))
+app.use(process.env.API_PATH, require("./routes/route.route"))
 app.use("*", (req, res, next) => {
     if (!req.originalUrl.includes(process.env.API_PATH))
       res.sendFile(path.join(__dirname, "..", "public", "index.html"))

@@ -53,12 +53,14 @@ router.post('/routes', passport.authenticate('jwt', {session: false}), async (re
  * 
  * Updates a route.
  */
-router.put('/routes/:_id', ensureAuthenticated, async (req, res) => {
-    const _id = req.params._id
-    let route = req.body
-    let updatedRoute = await Route.updateOne({ _id }, route)
-    
-    return res.status(200).json(updatedRoute)
+router.put('/routes/:_id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    try {
+        const _id = req.params._id
+        let route = req.body
+        let updatedRoute = await Route.updateOne({ _id }, route)
+        
+        return res.status(200).json(updatedRoute)
+    } catch(err) { next(err) }
 })
 
 /**
@@ -66,11 +68,13 @@ router.put('/routes/:_id', ensureAuthenticated, async (req, res) => {
  * 
  * Deletes a route.
  */
-router.delete('/routes/:_id', ensureAuthenticated, async (req, res) => {
-    const _id = req.params._id
-    await Route.deleteOne({ _id })
-
-    return res.status(200).json(true)
+router.delete('/routes/:_id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
+    try {
+        const _id = req.params._id
+        await Route.deleteOne({ _id })
+    
+        return res.status(200).json(true)
+    } catch(err) { next(err) }
 })
 
 module.exports = router
