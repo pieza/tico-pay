@@ -3,6 +3,7 @@ import { Validators, FormControl } from '@angular/forms';
 import { CreditCard } from 'src/app/models/credit-card';
 import { AuthService } from 'src/app/services/auth.service';
 import { RouteService } from 'src/app/services/route.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin',
@@ -94,6 +95,18 @@ export class AdminComponent implements OnInit {
       province: this.routePrice.value,
       district: this.routeDistrict.value,
       canton: this.routeCanton.value
+    }).subscribe(response => {
+      Swal.fire(
+        'Completamente',
+        `Ruta registrada corectamente!`,
+        'success'
+      );
+    }, error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.error
+      })
     });
   }
 
