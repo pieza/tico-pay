@@ -10,6 +10,7 @@ export class User {
     lastname?: string;
     email?: string;
     birthday?: Date;
+    active?: boolean;
     balance?: number;
     password?: string;
     credit_card?: CreditCard;
