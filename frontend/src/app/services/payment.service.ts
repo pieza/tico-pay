@@ -43,10 +43,9 @@ export class PaymentService {
    * Reduce the balance of an user.
    * 
    * @param identification of the user to charge.
-   * @param amount         amount to charge
    */
-  charge(identification: string, amount: number) {
-    return this.http.post(`${environment.apiUrl}/charge`, { identification, amount }, this.auth.getHeaders()).subscribe(
+  charge(identification: string) {
+    return this.http.post(`${environment.apiUrl}/charge`, { identification }, this.auth.getHeaders()).subscribe(
       res => {
         if(res) {
           Swal.fire(

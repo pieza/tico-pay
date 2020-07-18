@@ -56,19 +56,12 @@ export class AuthService  {
   logout() {
     this.http.get(`${environment.apiUrl}/logout`).subscribe(
       (res:any) => {
-        this.cookie.createCookie(environment.cookieId, null);
-        // TODO: add loading 
-        this.current().then((user: User) => {
-          this.router.navigateByUrl('login')
-        });
+        this.cookie.deleteCookie(environment.cookieId);
+        this.router.navigateByUrl('login');
       },
       err => {
-        console.log(err)
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'No se pudo cerrar sesión.'
-        })
+        this.cookie.deleteCookie(environment.cookieId);
+        this.router.navigateByUrl('login');
       }
     );
   }

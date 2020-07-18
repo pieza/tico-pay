@@ -50,4 +50,13 @@ export class CookieService {
     }
     return "";
   }
+
+  /**
+   * Deletes a cookie from the browser.
+   * 
+   * @param name of the cookie.
+   */
+  deleteCookie(name) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+  }
 }
