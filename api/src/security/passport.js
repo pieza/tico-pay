@@ -16,8 +16,15 @@ opts.secretOrKey = process.env.SECRET_JWT_KEY
 passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
 	User.findById(jwt_payload._id)
 		.then(user => {
-			if (user) 
-				return done(null, user)
+			if (user) {
+				if(user.type == 'driver' && !user.route) {
+					return done(null, false)
+				}
+
+				if(user.active)
+					return done(null, user)
+			} 
+				
 				
 			return done(null, false)
 		})

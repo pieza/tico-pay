@@ -97,7 +97,7 @@ export class AuthService  {
    * @param user user registration data.
    */
   registerAdmin(user: UserRegister) {
-    return this.http.post(`${environment.apiUrl}/signupAdmin`, user, this.getHeaders()).subscribe(
+    return this.http.post(`${environment.apiUrl}/signupAdmin`, user, { headers: this.getHeaders()}).subscribe(
       res => {
         console.log(res)
         Swal.fire(
@@ -123,7 +123,7 @@ export class AuthService  {
    */
   current() {
     return new Promise((resolve, reject) => {
-      return this.http.get(`${environment.apiUrl}/current`, this.getHeaders()).subscribe((data: any) => {
+      return this.http.get(`${environment.apiUrl}/current`, { headers: this.getHeaders()}).subscribe((data: any) => {
         this.user = data ? data : null;
         resolve(this.user);
       }, error => {
@@ -137,10 +137,10 @@ export class AuthService  {
   /**
    * Create a default headers with authorization token.
    */
-  getHeaders(): any {
-    return { headers: new HttpHeaders({
+  getHeaders(): HttpHeaders {
+    return new HttpHeaders({
       Authorization: this.cookie.getCookie(environment.cookieId)
-    })};
+    });
   }
 
   

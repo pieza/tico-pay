@@ -6,6 +6,7 @@
   "author": "Jose Ulloa <jandres258@hotmail.com>",
   "license": "MIT",
   "scripts": {
+    "build": "cd ../frontend && npm install && npm install -g @angular/cli && npm run build && cd ..",
     "start": "node src/index.js",
     "dev": "nodemon src/index.js"
   },

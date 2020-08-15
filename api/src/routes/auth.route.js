@@ -50,7 +50,10 @@ router.post('/login', async (req, res, next) => {
 
         if(!user.active)
             return res.status(401).json({error: 'El usuario se encuentra deshabilitado.' })
-        
+
+        if(user.type == 'driver' && !user.route) 
+            return res.status(401).json({error: 'El chofer no tiene ruta asignada.' })
+
         // user match
         const payload = user.getSimple()
 

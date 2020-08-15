@@ -5,8 +5,9 @@ const { Schema } = mongoose
 const TransactionSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     amount: { type: Number, require: true },
+    type: { type: String, require: true },
     route: { type: Schema.Types.ObjectId, ref: 'Route' },
     date: { type: Date, required: true, default: new Date() }
 })
 
-module.exports = mongoose.model('Route', TransactionSchema)
+module.exports = mongoose.model('Transaction', TransactionSchema)

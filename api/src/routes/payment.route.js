@@ -3,6 +3,7 @@ const router = express.Router()
 const User = require('../models/user')
 const passport = require('passport')
 const validateCreditCard = require('../utils/validators/credit-card.validator')
+const Transaction = require('../models/transaction')
 
 /**
  * POST /recharge
@@ -14,7 +15,7 @@ router.post('/recharge', passport.authenticate('jwt', {session: false}), async (
         if(!req.user.type == 'client')
             return res.status(401).json({ error: 'No puede realizar esta acción.' }) 
 
-        const { amount } = req.body
+        const amount = parseInt(req.body.amount)
 
         const user = await User.findById(req.user._id)
     
@@ -25,6 +26,12 @@ router.post('/recharge', passport.authenticate('jwt', {session: false}), async (
     
         user.balance += amount
         user.save()
+
+        await Transaction.create({
+            user: user._id,
+            type: 'recharge',
+            amount: amount
+          })
     
         return res.status(200).json(true)
     } catch(err) { next(err) }
@@ -51,11 +58,27 @@ router.post('/charge', passport.authenticate('jwt', {session: false}), async (re
         if(!client)
             return res.status(500).json({ error: 'El usuario no existe.' })
         
-        if(driver.route.price > client.balance)
+        if(driver.route.price > client.balance) {
+            await Transaction.create({
+                user: client._id,
+                type: 'denied',
+                amount: driver.route.price,
+                route: driver.route._id
+            })
             return res.status(500).json({ error: 'El usuario no posee suficientes fondos.' })
+        }
+            
     
         client.balance -= driver.route.price
         client.save()
+
+
+        await Transaction.create({
+          user: client._id,
+          type: 'charge',
+          amount: driver.route.price,
+          route: driver.route._id
+        })
     
         return res.status(200).json(true)
     } catch(err) { next(err) }

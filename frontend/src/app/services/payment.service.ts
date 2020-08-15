@@ -17,7 +17,7 @@ export class PaymentService {
    * @param amount amount to recharge.
    */
   recharge(amount: number) {
-    return this.http.post(`${environment.apiUrl}/recharge`, { amount }, this.auth.getHeaders()).subscribe(
+    return this.http.post(`${environment.apiUrl}/recharge`, { amount }, { headers: this.auth.getHeaders()}).subscribe(
       res => {
         if(res) {
           Swal.fire(
@@ -45,7 +45,7 @@ export class PaymentService {
    * @param identification of the user to charge.
    */
   charge(identification: string) {
-    return this.http.post(`${environment.apiUrl}/charge`, { identification }, this.auth.getHeaders()).subscribe(
+    return this.http.post(`${environment.apiUrl}/charge`, { identification }, { headers: this.auth.getHeaders()}).subscribe(
       res => {
         if(res) {
           Swal.fire(
