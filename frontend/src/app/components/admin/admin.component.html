@@ -10,8 +10,12 @@
   
   <mat-card class="login-card centerXY">
     <mat-tab-group>
-        <mat-tab label="Crear usuario"> 
-            <mat-grid-list cols="2" rowHeight="3:1">
+        <mat-tab label="Administrar Usuarios"> 
+          <mat-tab-group>
+
+            <mat-tab label="Crear usuarios"> 
+
+              <mat-grid-list cols="2" rowHeight="3:1">
                 <mat-grid-tile>
                     <div class="center-input" style="margin-top: 10px;">
                         <mat-form-field appearance="standard">
@@ -57,9 +61,9 @@
                 <div class="center-input">
                     <mat-form-field appearance="standard">
                         <mat-label>Contraseña</mat-label>
-                        <input placeholder="Ej: jhonDoe123" matInput [type]="hide ? 'password' : 'text'" [formControl]="password">
-                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        <input placeholder="Ej: jhonDoe123" matInput [type]="hideEdit ? 'password' : 'text'" [formControl]="password">
+                        <button mat-icon-button matSuffix (click)="hideEdit = !hideEdit" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideEdit">
+                          <mat-icon>{{hideEdit ? 'visibility_off' : 'visibility'}}</mat-icon>
                           </button>
                     </mat-form-field>
       
@@ -112,32 +116,241 @@
                   </mat-grid-tile>
                   <mat-grid-tile>
                     <div class="left-input">
-                        <button [disabled]="!formIsValid()" (click)="register()" class="register-button" mat-raised-button color="primary">Registrarse</button>
+                        <button [disabled]="!formIsValid()" (click)="register()" class="register-button" mat-raised-button color="primary">Registrar</button>
                     </div>
                   </mat-grid-tile>
             </mat-grid-list>
-        </mat-tab>
+            </mat-tab>
+            <mat-tab label="Editar usuarios"> 
 
-        <mat-tab label="Registrar ruta"> 
-
-            <mat-grid-list cols="2" rowHeight="3:1">
+              <mat-grid-list cols="2" rowHeight="3:1">
+                <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Identificación</mat-label>
+                            <input placeholder="Ej: 117470491" matInput [formControl]="usernameEdit">
+                            <mat-hint>Número de cédula</mat-hint>
+                            <mat-icon matSuffix>perm_identity</mat-icon>
+                            <mat-error *ngIf="usernameEdit.invalid">{{getErrorMessageUsername()}}</mat-error>
+                          </mat-form-field>
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="left-input">
+                        <button (click)="getUserById()" class="search-button" mat-raised-button color="primary">Buscar Usuario</button>
+                    </div>
+                  </mat-grid-tile>
+                  <div  *ngIf="shouldShowEditUser">
                   <mat-grid-tile>
                     <div class="center-input" style="margin-top: 10px;">
                       <mat-form-field appearance="standard">
-                          <mat-label>Nombre de la ruta</mat-label>
-                          <input placeholder="Ej: Jhon" matInput [formControl]="routeName">
-                          <mat-icon matSuffix>home</mat-icon>
-                          <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                          <mat-label>Nombre</mat-label>
+                          <input placeholder="Ej: Jhon" matInput [formControl]="nameEdit">
+                          <mat-icon matSuffix>face</mat-icon>
+                          <mat-error *ngIf="nameEdit.invalid">{{getErrorMessageName()}}</mat-error>
                         </mat-form-field>
                   </div>
                 </mat-grid-tile>
                 <mat-grid-tile>
+                  <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Apellidos</mat-label>
+                        <input placeholder="Ej: Doe" matInput [formControl]="lastNameEdit">
+                        <mat-icon matSuffix>contacts</mat-icon>
+                        <mat-error *ngIf="lastNameEdit.invalid">{{getErrorMessageLastName()}}</mat-error>
+                      </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="center-input" style="margin-top: 10px;">
+                  <mat-form-field appearance="standard">
+                      <mat-label>Email</mat-label>
+                      <input placeholder="Ej: JhonDoe@example.com" matInput [formControl]="emailEdit">
+                      <mat-icon matSuffix>contact_mail</mat-icon>
+                      <mat-error *ngIf="emailEdit.invalid">{{getErrorMessageMail()}}</mat-error>
+                    </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="center-input">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Contraseña</mat-label>
+                        <input placeholder="Ej: jhonDoe123" matInput [type]="hide ? 'password' : 'text'" [formControl]="passwordEdit">
+                        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                          </button>
+                    </mat-form-field>
+      
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                <div class="center-input" style="margin-top: 10px;">
+                  <mat-form-field appearance="standard">
+                    <mat-label>Fecha de nacimiento</mat-label>
+                    <input matInput [matDatepicker]="picker" [formControl]="dateEdit">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                </div>
+              </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="center-input">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Repite la contraseña</mat-label>
+                            <input placeholder="Ej: jhonDoe123" matInput [type]="hide ? 'password' : 'text'" [formControl]="password2Edit">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                              </button>
+                        </mat-form-field>
+        
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="center-input">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Seleccione el tipo de usuario</mat-label>
+                            <mat-select [(value)]="userTypeEdit">
+                              <mat-option value="driver">Conductor</mat-option>
+                              <mat-option value="admin">Administrador</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile *ngIf="userTypeEdit=='driver'">
+                    <div class="center-input">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Seleccione una ruta</mat-label>
+                            <mat-select [(value)]="selectedRouteEdit">
+                              <mat-option *ngFor="let route of routesDriver" [value]="route._id">
+                                {{ route.name }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="left-input">
+                        <button [disabled]="!formEditIsValid()" (click)="register()" class="register-button" mat-raised-button color="primary">Editar</button>
+                    </div>
+                  </mat-grid-tile>
+                </div>
+            </mat-grid-list>
+            </mat-tab>
+            <mat-tab label="Desactivar usuarios"> 
+              
+              <mat-grid-list cols="2" rowHeight="3:1">
+                <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Identificación</mat-label>
+                            <input placeholder="Ej: 117470491" matInput [formControl]="usernameDisable">
+                            <mat-hint>Número de cédula</mat-hint>
+                            <mat-icon matSuffix>perm_identity</mat-icon>
+                            <mat-error *ngIf="usernameEdit.invalid">{{getErrorMessageUsername()}}</mat-error>
+                          </mat-form-field>
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile>
+                    <div class="left-input">
+                        <button (click)="disableUser()" class="search-button" mat-raised-button color="primary">Desactivar Usuario</button>
+                    </div>
+                  </mat-grid-tile>
+                </mat-grid-list>
+            </mat-tab>
+
+          </mat-tab-group>
+
+        </mat-tab>
+
+        <mat-tab label="Administrar Rutas"> 
+          <mat-tab-group>
+            <mat-tab label="Registrar Rutas"> 
+
+              <mat-grid-list cols="2" rowHeight="3:1">
+                <mat-grid-tile>
+                  <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Nombre de la ruta</mat-label>
+                        <input placeholder="Ej: Jhon" matInput [formControl]="routeName">
+                        <mat-icon matSuffix>home</mat-icon>
+                        <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                      </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                  <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Precio</mat-label>
+                        <input placeholder="Ej: Jhon" matInput [formControl]="routePrice">
+                        <mat-icon matSuffix>attach_money</mat-icon>
+                        <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                      </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                  <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Provincia</mat-label>
+                        <input placeholder="Ej: Jhon" matInput [formControl]="routeProvince">
+                        <mat-icon matSuffix>place</mat-icon>
+                        <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                      </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                  <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Cantón</mat-label>
+                        <input placeholder="Ej: Jhon" matInput [formControl]="routeCanton">
+                        <mat-icon matSuffix>pin_drop</mat-icon>
+                        <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                      </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                  <div class="center-input" style="margin-top: 10px;">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Distrito</mat-label>
+                        <input placeholder="Ej: Jhon" matInput [formControl]="routeDistrict">
+                        <mat-icon matSuffix>near_me</mat-icon>
+                        <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                      </mat-form-field>
+                </div>
+              </mat-grid-tile>
+              <mat-grid-tile>
+                  <div class="left-input">
+                      <button [disabled]="!formIsValid2()" (click)="registerRoute()" class="register-button" mat-raised-button color="primary">Reigstrar ruta</button>
+                  </div>
+                </mat-grid-tile>
+          </mat-grid-list>
+
+              </mat-tab>
+              <mat-tab label="Editar Rutas"> 
+
+                <mat-grid-list cols="2" rowHeight="3:1">
+                  <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                      <mat-form-field appearance="standard">
+                          <mat-label>Nombre de la ruta</mat-label>
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routeNameEdit">
+                          <mat-icon matSuffix>home</mat-icon>
+                          <mat-error *ngIf="nameEdit.invalid">Ingrese un valor</mat-error>
+                        </mat-form-field>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                  <div class="left-input">
+                      <button (click)="getRouteByName()" class="search-button" mat-raised-button color="primary">Buscar Ruta</button>
+                  </div>
+                </mat-grid-tile>
+                <div  *ngIf="shouldShowEditUser">
+                <mat-grid-tile>
                     <div class="center-input" style="margin-top: 10px;">
                       <mat-form-field appearance="standard">
                           <mat-label>Precio</mat-label>
-                          <input placeholder="Ej: Jhon" matInput [formControl]="routePrice">
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routePriceEdit">
                           <mat-icon matSuffix>attach_money</mat-icon>
-                          <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                          <mat-error *ngIf="nameEdit.invalid">Ingrese un valor</mat-error>
                         </mat-form-field>
                   </div>
                 </mat-grid-tile>
@@ -145,9 +358,9 @@
                     <div class="center-input" style="margin-top: 10px;">
                       <mat-form-field appearance="standard">
                           <mat-label>Provincia</mat-label>
-                          <input placeholder="Ej: Jhon" matInput [formControl]="routeProvince">
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routeProvinceEdit">
                           <mat-icon matSuffix>place</mat-icon>
-                          <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                          <mat-error *ngIf="nameEdit.invalid">Ingrese un valor</mat-error>
                         </mat-form-field>
                   </div>
                 </mat-grid-tile>
@@ -155,9 +368,9 @@
                     <div class="center-input" style="margin-top: 10px;">
                       <mat-form-field appearance="standard">
                           <mat-label>Cantón</mat-label>
-                          <input placeholder="Ej: Jhon" matInput [formControl]="routeCanton">
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routeCantonEdit">
                           <mat-icon matSuffix>pin_drop</mat-icon>
-                          <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                          <mat-error *ngIf="nameEdit.invalid">Ingrese un valor</mat-error>
                         </mat-form-field>
                   </div>
                 </mat-grid-tile>
@@ -165,31 +378,43 @@
                     <div class="center-input" style="margin-top: 10px;">
                       <mat-form-field appearance="standard">
                           <mat-label>Distrito</mat-label>
-                          <input placeholder="Ej: Jhon" matInput [formControl]="routeDistrict">
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routeDistrictEdit">
                           <mat-icon matSuffix>near_me</mat-icon>
-                          <mat-error *ngIf="name.invalid">Ingrese un valor</mat-error>
+                          <mat-error *ngIf="nameEdit.invalid">Ingrese un valor</mat-error>
                         </mat-form-field>
                   </div>
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <div class="left-input">
-                        <button [disabled]="!formIsValid2()" (click)="registerRoute()" class="register-button" mat-raised-button color="primary">Reigstrar ruta</button>
+                        <button [disabled]="!formEditIsValid2()" (click)="editRoute()" class="register-button" mat-raised-button color="primary">Reigstrar ruta</button>
                     </div>
                   </mat-grid-tile>
+                </div>
             </mat-grid-list>
-        </mat-tab>
-        <mat-tab label="Editar rutas">
-            <mat-grid-list cols="2" rowHeight="6:1">
-                <mat-grid-tile>
-                    <mat-divider></mat-divider>
-                    <h3>Nombre de ruta: </h3>
+
+              </mat-tab>
+              <mat-tab label="Desactivar Rutas"> 
+
+                <mat-grid-list cols="2" rowHeight="3:1">
+                  <mat-grid-tile>
+                    <div class="center-input" style="margin-top: 10px;">
+                      <mat-form-field appearance="standard">
+                          <mat-label>Nombre de la ruta</mat-label>
+                          <input placeholder="Ej: Jhon" matInput [formControl]="routeNameDisable">
+                          <mat-icon matSuffix>home</mat-icon>
+                          <mat-error *ngIf="nameEdit.invalid">Ingrese un valor</mat-error>
+                        </mat-form-field>
+                  </div>
                 </mat-grid-tile>
-           
                 <mat-grid-tile>
-                    <mat-divider></mat-divider>
-                    <h3>Nombre de ruta: </h3>
+                  <div class="left-input">
+                      <button (click)="disableRoute()" class="search-button" mat-raised-button color="primary">Desactivar Ruta</button>
+                  </div>
                 </mat-grid-tile>
-            </mat-grid-list>
+                </mat-grid-list>
+
+              </mat-tab>
+          </mat-tab-group>
         </mat-tab>
       </mat-tab-group>
   </mat-card>

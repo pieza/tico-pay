@@ -9,7 +9,7 @@
 
   
   .menu-card {
-    width: 250px;
+    min-width: 350px;
   }
   .center-input {
     margin-left: 27px;
@@ -24,4 +24,14 @@
   .title-no-margin {
     margin-bottom: 0px;
 
+  }
+
+  //////
+
+  table {
+    width: 100%;
+  }
+  
+  tr.mat-footer-row {
+    font-weight: bold;
   }

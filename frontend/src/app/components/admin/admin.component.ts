@@ -15,6 +15,9 @@ export class AdminComponent implements OnInit {
 
   constructor(private authService: AuthService, private routeService: RouteService) { }
 
+  shouldShowEditUser = false;
+  shouldShowEditRoute = false;
+
   hide = true;
   username = new FormControl('', [Validators.required, Validators.maxLength(9)]);
   password = new FormControl('', [Validators.required, Validators.maxLength(10)]);
@@ -27,11 +30,34 @@ export class AdminComponent implements OnInit {
   selectedRoute: any;
   routesDriver: Route[] = [];
 
-  routeName = new FormControl('', [Validators.required, Validators.maxLength(10)]);
-  routePrice = new FormControl('', [Validators.required, Validators.maxLength(10)]);
-  routeProvince = new FormControl('', [Validators.required, Validators.maxLength(100)]);
-  routeCanton = new FormControl('', [Validators.required, Validators.maxLength(100)]);
-  routeDistrict = new FormControl('', [Validators.required]);
+  hideEdit = true;
+  usernameEdit = new FormControl('', [Validators.required, Validators.maxLength(9)]);
+  passwordEdit = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+  password2Edit = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+  nameEdit = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+  lastNameEdit = new FormControl('', [Validators.required, Validators.maxLength(100)]);
+  emailEdit = new FormControl('', [Validators.required, Validators.email]);
+  dateEdit = new FormControl('', [Validators.required]);
+  userTypeEdit = 'admin';
+  selectedRouteEdit: any;
+
+  usernameDisable = new FormControl('', [Validators.required, Validators.maxLength(9)]);
+
+// Routes
+
+routeName = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+routePrice = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+routeProvince = new FormControl('', [Validators.required, Validators.maxLength(100)]);
+routeCanton = new FormControl('', [Validators.required, Validators.maxLength(100)]);
+routeDistrict = new FormControl('', [Validators.required]);
+
+routeNameEdit = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+routePriceEdit = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+routeProvinceEdit = new FormControl('', [Validators.required, Validators.maxLength(100)]);
+routeCantonEdit = new FormControl('', [Validators.required, Validators.maxLength(100)]);
+routeDistrictEdit = new FormControl('', [Validators.required]);
+
+routeNameDisable = new FormControl('', [Validators.required, Validators.maxLength(10)]);
 
   getErrorMessageUsername() {
     if (this.username.hasError('required')) {
@@ -70,14 +96,25 @@ export class AdminComponent implements OnInit {
     }
     return true;
   }
-
+  formEditIsValid() {
+    console.log(!!this.usernameEdit.hasError('required'))
+    if (this.usernameEdit.hasError('required')) {
+      return false;
+    }
+    return true;
+  }
   formIsValid2() {
     if (this.routeName.hasError('required')) {
       return false;
     }
     return true;
   }
-
+  formEditIsValid2() {
+    if (this.routeNameEdit.hasError('required')) {
+      return false;
+    }
+    return true;
+  }
   register() {
     this.authService.registerAdmin({
       identification: this.username.value,
@@ -113,7 +150,142 @@ export class AdminComponent implements OnInit {
       })
     });
   }
+  editRoute() {
+    /*
+    this.routeService.edit({
+      name: this.routeNameEdit.value,
+      price: this.routePriceEdit.value,
+      province: this.routePriceEdit.value,
+      district: this.routeDistrictEdit.value,
+      canton: this.routeCantonEdit.value
+    }).subscribe(response => {
+      Swal.fire(
+        'Completamente',
+        `Ruta editada corectamente!`,
+        'success'
+      );
+    }, error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.error.error  || 'Ha ocurrido un error.'
+      })
+    });
+    */
+  }
+  editUser() {
+    /*
+    this.authService.editAdmin({ //TODO Should call correct edit method
+      identification: this.usernameEdit.value,
+      type: this.userTypeEdit,
+      route: this.selectedRouteEdit,
+      name: this.nameEdit.value,
+      lastname: this.lastNameEdit.value,
+      email: this.emailEdit.value,
+      password: this.passwordEdit.value,
+      password2: this.password2Edit.value,
+      birthday: this.dateEdit.value
+    }).subscribe(response => {
+      Swal.fire(
+        'Completamente',
+        `Usuario editado corectamente!`,
+        'success'
+      );
+    }, error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.error.error  || 'Ha ocurrido un error.'
+      })
+    });
+    */
+  }
+  getUserById() {
+    //TODO search user By id
+    this.usernameEdit.value
+    //TODO assign returned values to editForm Values
+/*
+    this.usernameEdit.value = 
+    this.userTypeEdit = 
+    this.selectedRouteEdit = 
+    this.nameEdit.value = 
+    this.lastNameEdit.value = 
+    this.emailEdit.value = 
+    this.passwordEdit.value = 
+    this.password2Edit.value = 
+    this.dateEdit.value = 
+*/
+    //TODO ONLY if success change shouldShowEditUser value to true
+    this.shouldShowEditUser = true;
+    //TODO if error show swal 
+    /* 
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.error.error  || 'Usuario no encontrado.'
+      })
+    */
+  }
 
+  getRouteByName() {
+    //TODO search route By id
+    this.routeNameEdit.value
+    //TODO assign returned values to editFormRoutes Values
+/*
+      this.routeNameEdit.value = 
+      this.routePriceEdit.value =
+      this.routePriceEdit.value = 
+      this.routeDistrictEdit.value = 
+      this.routeCantonEdit.value = 
+*/
+    //TODO ONLY if success change shouldShowEditRoute value to true
+    this.shouldShowEditRoute = true;
+    //TODO if error show swal 
+    /* 
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.error.error  || 'Ruta no encontrada'
+      })
+    */
+  }
+
+  disableUser () {
+    /*TODO CALL disable using variable this.usernameDisable
+    this.SomeService.disableUser(this.usernameDisable)
+    .subscribe(response => {
+      Swal.fire(
+        'Completamente',
+        `Usuario desactivado corectamente!`,
+        'success'
+      );
+    }, error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.error.error  || 'Ha ocurrido un error.'
+      })
+    });
+      */
+  }
+  disableRoute() {
+        /*TODO CALL disable using variable this.routeNameDisable
+    this.SomeService.disableRoute(this.routeNameDisable)
+    .subscribe(response => {
+      Swal.fire(
+        'Completamente',
+        `Ruta desactivada corectamente!`,
+        'success'
+      );
+    }, error => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.error.error  || 'Ha ocurrido un error.'
+      })
+    });
+      */
+  }
   getRoutes() {
     this.routeService.find().subscribe(response => {
       console.log(response)

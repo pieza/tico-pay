@@ -35,7 +35,7 @@ router.get('/users/:id', passport.authenticate('jwt', {session: false}), async (
 /**
  * PUT /users
  * 
- * Updates a route.
+ * Updates an user.
  */
 router.put('/users/:_id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {
@@ -50,7 +50,7 @@ router.put('/users/:_id', passport.authenticate('jwt', {session: false}), async 
 /**
  * DELETE /users
  * 
- * Deletes a route.
+ * Deletes an user.
  */
 router.delete('/users/:_id', passport.authenticate('jwt', {session: false}), async (req, res, next) => {
     try {

@@ -24,6 +24,7 @@ import { ClientComponent } from './components/client/client.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatTableModule} from '@angular/material/table';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +54,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatDialogModule,
     MatTabsModule,
     MatSelectModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]
