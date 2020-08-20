@@ -5,6 +5,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { RouteService } from 'src/app/services/route.service';
 import Swal from 'sweetalert2';
 import { Route } from 'src/app/models/route';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-admin',
@@ -13,7 +15,7 @@ import { Route } from 'src/app/models/route';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private authService: AuthService, private routeService: RouteService) { }
+  constructor(private authService: AuthService, private routeService: RouteService, private userService: UserService) { }
 
   shouldShowEditUser = false;
   shouldShowEditRoute = false;
@@ -27,6 +29,7 @@ export class AdminComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   date = new FormControl('', [Validators.required]);
   userType = 'admin';
+  userId = '';
   selectedRoute: any;
   routesDriver: Route[] = [];
 
@@ -39,7 +42,7 @@ export class AdminComponent implements OnInit {
   emailEdit = new FormControl('', [Validators.required, Validators.email]);
   dateEdit = new FormControl('', [Validators.required]);
   userTypeEdit = 'admin';
-  selectedRouteEdit: any;
+  selectedRouteEdit: Route;
 
   usernameDisable = new FormControl('', [Validators.required, Validators.maxLength(9)]);
 
@@ -174,8 +177,8 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
     */
   }
   editUser() {
-    /*
-    this.authService.editAdmin({ //TODO Should call correct edit method
+    //TODO QA
+    this.userService.update(this.userId, { 
       identification: this.usernameEdit.value,
       type: this.userTypeEdit,
       route: this.selectedRouteEdit,
@@ -183,7 +186,6 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
       lastname: this.lastNameEdit.value,
       email: this.emailEdit.value,
       password: this.passwordEdit.value,
-      password2: this.password2Edit.value,
       birthday: this.dateEdit.value
     }).subscribe(response => {
       Swal.fire(
@@ -198,61 +200,53 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
         text: error.error.error  || 'Ha ocurrido un error.'
       })
     });
-    */
   }
   getUserById() {
-    //TODO search user By id
-    this.usernameEdit.value
-    //TODO assign returned values to editForm Values
-/*
-    this.usernameEdit.value = 
-    this.userTypeEdit = 
-    this.selectedRouteEdit = 
-    this.nameEdit.value = 
-    this.lastNameEdit.value = 
-    this.emailEdit.value = 
-    this.passwordEdit.value = 
-    this.password2Edit.value = 
-    this.dateEdit.value = 
-*/
-    //TODO ONLY if success change shouldShowEditUser value to true
-    this.shouldShowEditUser = true;
-    //TODO if error show swal 
-    /* 
-    Swal.fire({
+    //TODO QA
+    this.userService.find({ identification: this.usernameEdit.value }).subscribe((data: User[]) => {
+      const user = data[0]
+      this.usernameEdit.setValue(user.identification) 
+      this.userTypeEdit = user.type
+      this.selectedRouteEdit = user.route
+      this.nameEdit.setValue(user.name)
+      this.lastNameEdit.setValue(user.lastname)
+      this.emailEdit.setValue(user.email)
+      this.passwordEdit.setValue(user.password) 
+      this.dateEdit.setValue(user.birthday)
+      this.shouldShowEditUser = true;
+    }, error => {
+      Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: error.error.error  || 'Usuario no encontrado.'
+        text: error?.error?.error  || 'Usuario no encontrado.'
       })
-    */
+    })
   }
 
   getRouteByName() {
-    //TODO search route By id
-    this.routeNameEdit.value
-    //TODO assign returned values to editFormRoutes Values
-/*
-      this.routeNameEdit.value = 
-      this.routePriceEdit.value =
-      this.routePriceEdit.value = 
-      this.routeDistrictEdit.value = 
-      this.routeCantonEdit.value = 
-*/
-    //TODO ONLY if success change shouldShowEditRoute value to true
-    this.shouldShowEditRoute = true;
-    //TODO if error show swal 
-    /* 
-    Swal.fire({
+    //TODO QA search route By id
+    this.routeService.find({ name: this.routeNameEdit.value }).subscribe(data => {
+      const route = data[0]
+      this.routeNameEdit.setValue(route.name)
+      this.routePriceEdit.setValue(route.price)
+      this.routeProvince.setValue(route.province) 
+      this.routeDistrictEdit.setValue(route.district) 
+      this.routeCantonEdit.setValue(route.canton)
+      this.shouldShowEditRoute = true;
+    }, error => {
+      Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: error.error.error  || 'Ruta no encontrada'
+        text: error?.error?.error  || 'Ruta no encontrada'
       })
-    */
+    })
   }
 
-  disableUser () {
-    /*TODO CALL disable using variable this.usernameDisable
-    this.SomeService.disableUser(this.usernameDisable)
+  async disableUser () {
+    //TODO QA CALL disable using variable this.usernameDisable
+    const user = (await this.userService.find({ identification: this.usernameDisable }).toPromise())[0]
+    user.active = false
+    this.userService.update(user._id, user)
     .subscribe(response => {
       Swal.fire(
         'Completamente',
@@ -266,15 +260,16 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
         text: error.error.error  || 'Ha ocurrido un error.'
       })
     });
-      */
   }
-  disableRoute() {
-        /*TODO CALL disable using variable this.routeNameDisable
-    this.SomeService.disableRoute(this.routeNameDisable)
+  async disableRoute() {
+    //TODO QA CALL disable using variable this.routeNameDisable
+    const route = (await this.routeService.find().toPromise())[0]
+
+    this.routeService.delete(route._id)
     .subscribe(response => {
       Swal.fire(
         'Completamente',
-        `Ruta desactivada corectamente!`,
+        `Ruta eliminada corectamente!`,
         'success'
       );
     }, error => {
@@ -284,7 +279,7 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
         text: error.error.error  || 'Ha ocurrido un error.'
       })
     });
-      */
+
   }
   getRoutes() {
     this.routeService.find().subscribe(response => {
