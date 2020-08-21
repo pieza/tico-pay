@@ -230,7 +230,7 @@
                   </mat-grid-tile>
                   <mat-grid-tile>
                     <div class="left-input">
-                        <button [disabled]="!formEditIsValid()" (click)="register()" class="register-button" mat-raised-button color="primary">Editar</button>
+                        <button [disabled]="!formEditIsValid()" (click)="editUser()" class="register-button" mat-raised-button color="primary">Editar</button>
                     </div>
                   </mat-grid-tile>
                 </div>
@@ -319,7 +319,7 @@
               </mat-grid-tile>
               <mat-grid-tile>
                   <div class="left-input">
-                      <button [disabled]="!formIsValid2()" (click)="registerRoute()" class="register-button" mat-raised-button color="primary">Reigstrar ruta</button>
+                      <button [disabled]="!formIsValid2()" (click)="registerRoute()" class="register-button" mat-raised-button color="primary">Registrar ruta</button>
                   </div>
                 </mat-grid-tile>
           </mat-grid-list>
@@ -343,7 +343,7 @@
                       <button (click)="getRouteByName()" class="search-button" mat-raised-button color="primary">Buscar Ruta</button>
                   </div>
                 </mat-grid-tile>
-                <div  *ngIf="shouldShowEditUser">
+                <div  *ngIf="shouldShowEditRoute">
                 <mat-grid-tile>
                     <div class="center-input" style="margin-top: 10px;">
                       <mat-form-field appearance="standard">
@@ -386,7 +386,7 @@
                 </mat-grid-tile>
                 <mat-grid-tile>
                     <div class="left-input">
-                        <button [disabled]="!formEditIsValid2()" (click)="editRoute()" class="register-button" mat-raised-button color="primary">Reigstrar ruta</button>
+                        <button [disabled]="!formEditIsValid2()" (click)="editRoute()" class="register-button" mat-raised-button color="primary">Editar ruta</button>
                     </div>
                   </mat-grid-tile>
                 </div>

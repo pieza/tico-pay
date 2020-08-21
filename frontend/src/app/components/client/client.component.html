@@ -42,22 +42,25 @@
                       <mat-grid-list cols="2" rowHeight="2:3">
                         <mat-grid-tile>
                           <div style="background-color: white; width: 90%; height: 90%;">
-                            <h1 style="margin: 15px;">Ingresos de hoy</h1>
+                            <h1 style="margin: 15px;">Gastos en recargas</h1>
         
                             <table mat-table [dataSource]="report1DataSet" class="mat-elevation-z8">
+
+                               <!-- Cost Column -->
+                               <ng-container matColumnDef="amount">
+                                <th mat-header-cell *matHeaderCellDef> Monto </th>
+                                <td mat-cell *matCellDef="let transaction"> {{transaction.amount | currency:'₡'}} </td>
+                                <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency:'₡'}} </td>
+                              </ng-container>
+
                               <!-- Item Column -->
                               <ng-container matColumnDef="user">
-                                <th mat-header-cell *matHeaderCellDef> Cliente </th>
-                                <td mat-cell *matCellDef="let transaction"> {{transaction.user}} </td>
+                                <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                                <td mat-cell *matCellDef="let transaction"> {{transaction.date | date:'dd/MM/yyyy' }} </td>
                                 <td mat-footer-cell *matFooterCellDef> Total </td>
                               </ng-container>
                             
-                              <!-- Cost Column -->
-                              <ng-container matColumnDef="payment">
-                                <th mat-header-cell *matHeaderCellDef> Cobro </th>
-                                <td mat-cell *matCellDef="let transaction"> {{transaction.payment | currency:'₡'}} </td>
-                                <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency:'₡'}} </td>
-                              </ng-container>
+                             
                             
                               <tr mat-header-row *matHeaderRowDef="displayedColumnsReport1"></tr>
                               <tr mat-row *matRowDef="let row; columns: displayedColumnsReport1;"></tr>
@@ -70,20 +73,20 @@
         
                         <mat-grid-tile>
                           <div style="background-color: white; width: 90%;height: 90%;">
-                            <h1 style="margin: 15px;">Usuarios rechazados</h1>
+                            <h1 style="margin: 15px;">Rutas utilizadas</h1>
         
                             <table mat-table [dataSource]="report2DataSet" class="mat-elevation-z8">
                               <!-- Item Column -->
-                              <ng-container matColumnDef="user">
-                                <th mat-header-cell *matHeaderCellDef> Identificacion </th>
-                                <td mat-cell *matCellDef="let transaction"> {{transaction.user}} </td>
+                              <ng-container matColumnDef="route">
+                                <th mat-header-cell *matHeaderCellDef> Ruta </th>
+                                <td mat-cell *matCellDef="let transaction"> {{transaction.route?.name || 'Ruta eliminada'}} </td>
                                 <td mat-footer-cell *matFooterCellDef> Total </td>
                               </ng-container>
                             
                               <!-- Cost Column -->
-                              <ng-container matColumnDef="name">
-                                <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                                <td mat-cell *matCellDef="let transaction"> {{transaction.name}} </td>
+                              <ng-container matColumnDef="date">
+                                <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                                <td mat-cell *matCellDef="let transaction"> {{transaction.date | date:'dd/MM/yyyy'}} </td>
                                 <td mat-footer-cell *matFooterCellDef> {{getTotal()}} </td>
                               </ng-container>
                             

@@ -1,15 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { PaymentService } from 'src/app/services/payment.service';
-
-export interface Report1 {
-  user: string;
-  payment: number;
-}
-export interface Report2 {
-  user: string;
-  name: string;
-}
+import { Transaction, TransactionTypes } from 'src/app/models/transaction';
+import { TransactionService } from 'src/app/services/transaction.service';
 
 @Component({
   selector: 'app-client',
@@ -19,41 +12,41 @@ export interface Report2 {
 export class ClientComponent implements OnInit {
   amount: number;
   
-  displayedColumnsReport1: string[] = ['user', 'payment'];
-  displayedColumnsReport2: string[] = ['user', 'name'];
+  displayedColumnsReport1: string[] = ['user', 'amount'];
+  displayedColumnsReport2: string[] = ['route', 'date'];
 
-  report1DataSet: Report1[] = [
-    {user: '117470491', payment: 2300},
-    {user: '117470491', payment: 5},
-    {user: '117470491', payment: 2},
-    {user: '117470491', payment: 4},
-    {user: '117470491', payment: 25},
-    {user: '117470491', payment: 15},
-  ];
+  report1DataSet: Transaction[] = [];
   
-  report2DataSet: Report2[] = [
-    {user: '117470491', name: 'Marco Morales'},
-    {user: '117470491', name: 'Marco Morales'},
-    {user: '117470491', name: 'Marco Morales'},
-    {user: '117470491', name: 'Marco Morales'},
-    {user: '117470491', name: 'Marco Morales'},
-    {user: '117470491', name: 'Marco Morales'},
-  ];
+  report2DataSet: Transaction[] = [];
 
   resultsLength = 0;
   isLoadingResults = true;
 
   /** Gets the total cost of all report1DataSet. */
   getTotalCost() {
-    return this.report1DataSet.map(t => t.payment).reduce((acc, value) => acc + value, 0);
+    return this.report1DataSet.map(t => t.amount).reduce((acc, value) => acc + value, 0);
   }
   getTotal() {
-    return this.report2DataSet.map(t => t).reduce((acc, value) => acc + 1, 0);
+    return this.report2DataSet.length;
   }
 
-  constructor(public auth: AuthService, private payment: PaymentService) { }
+  getReport1() {
+    this.transactionService.find({ type: TransactionTypes.RECHARGE, user: this.auth.user._id }).subscribe(data => {
+      this.report1DataSet = data;
+    })
+  }
+
+  getReport2() {
+    this.transactionService.find({ type: TransactionTypes.CHARGE, user: this.auth.user._id }).subscribe(data => {
+      this.report2DataSet = data;
+    })
+  }
+
+  constructor(public auth: AuthService, private payment: PaymentService, private transactionService: TransactionService) { }
 
   ngOnInit(): void {
+    this.getReport1()
+    this.getReport2()
   }
 
   submit() {

@@ -15,7 +15,7 @@
             
 
               <div class="center-input" style="margin-top: 10px;">
-                  <h3>Ruta asignada: {{routeAssigned}}</h3>
+                  <h3>Ruta asignada: {{routeAssigned.name }}</h3>
               </div>
 
             <div class="center-input">
@@ -39,20 +39,20 @@
               <mat-grid-list cols="2" rowHeight="2:3">
                 <mat-grid-tile>
                   <div style="background-color: white; width: 90%; height: 90%;">
-                    <h1 style="margin: 15px;">Ingresos de hoy</h1>
+                    <h1 style="margin: 15px;">Ingresos</h1>
 
                     <table mat-table [dataSource]="report1DataSet" class="mat-elevation-z8">
                       <!-- Item Column -->
                       <ng-container matColumnDef="user">
                         <th mat-header-cell *matHeaderCellDef> Cliente </th>
-                        <td mat-cell *matCellDef="let transaction"> {{transaction.user}} </td>
+                        <td mat-cell *matCellDef="let transaction"> {{transaction.user.name}} </td>
                         <td mat-footer-cell *matFooterCellDef> Total </td>
                       </ng-container>
                     
                       <!-- Cost Column -->
-                      <ng-container matColumnDef="payment">
+                      <ng-container matColumnDef="amount">
                         <th mat-header-cell *matHeaderCellDef> Cobro </th>
-                        <td mat-cell *matCellDef="let transaction"> {{transaction.payment | currency:'₡'}} </td>
+                        <td mat-cell *matCellDef="let transaction"> {{transaction.amount | currency:'₡'}} </td>
                         <td mat-footer-cell *matFooterCellDef> {{getTotalCost() | currency:'₡'}} </td>
                       </ng-container>
                     
@@ -73,14 +73,14 @@
                       <!-- Item Column -->
                       <ng-container matColumnDef="user">
                         <th mat-header-cell *matHeaderCellDef> Identificacion </th>
-                        <td mat-cell *matCellDef="let transaction"> {{transaction.user}} </td>
+                        <td mat-cell *matCellDef="let transaction"> {{transaction.user.identification }} </td>
                         <td mat-footer-cell *matFooterCellDef> Total </td>
                       </ng-container>
                     
                       <!-- Cost Column -->
                       <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                        <td mat-cell *matCellDef="let transaction"> {{transaction.name}} </td>
+                        <td mat-cell *matCellDef="let transaction"> {{transaction.user.name}} </td>
                         <td mat-footer-cell *matFooterCellDef> {{getTotal()}} </td>
                       </ng-container>
                     

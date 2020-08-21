@@ -42,19 +42,19 @@ export class AdminComponent implements OnInit {
   emailEdit = new FormControl('', [Validators.required, Validators.email]);
   dateEdit = new FormControl('', [Validators.required]);
   userTypeEdit = 'admin';
-  selectedRouteEdit: Route;
+  selectedRouteEdit: any;
 
   usernameDisable = new FormControl('', [Validators.required, Validators.maxLength(9)]);
 
 // Routes
-
-routeName = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+routeId: any
+routeName = new FormControl('', [Validators.required, Validators.maxLength(50)]);
 routePrice = new FormControl('', [Validators.required, Validators.maxLength(10)]);
 routeProvince = new FormControl('', [Validators.required, Validators.maxLength(100)]);
 routeCanton = new FormControl('', [Validators.required, Validators.maxLength(100)]);
 routeDistrict = new FormControl('', [Validators.required]);
 
-routeNameEdit = new FormControl('', [Validators.required, Validators.maxLength(10)]);
+routeNameEdit = new FormControl('', [Validators.required, Validators.maxLength(50)]);
 routePriceEdit = new FormControl('', [Validators.required, Validators.maxLength(10)]);
 routeProvinceEdit = new FormControl('', [Validators.required, Validators.maxLength(100)]);
 routeCantonEdit = new FormControl('', [Validators.required, Validators.maxLength(100)]);
@@ -136,7 +136,7 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
     this.routeService.create({
       name: this.routeName.value,
       price: this.routePrice.value,
-      province: this.routePrice.value,
+      province: this.routeProvince.value,
       district: this.routeDistrict.value,
       canton: this.routeCanton.value
     }).subscribe(response => {
@@ -154,11 +154,10 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
     });
   }
   editRoute() {
-    /*
-    this.routeService.edit({
+    this.routeService.update(this.routeId, {
       name: this.routeNameEdit.value,
       price: this.routePriceEdit.value,
-      province: this.routePriceEdit.value,
+      province: this.routeProvinceEdit.value,
       district: this.routeDistrictEdit.value,
       canton: this.routeCantonEdit.value
     }).subscribe(response => {
@@ -174,10 +173,9 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
         text: error.error.error  || 'Ha ocurrido un error.'
       })
     });
-    */
   }
+
   editUser() {
-    //TODO QA
     this.userService.update(this.userId, { 
       identification: this.usernameEdit.value,
       type: this.userTypeEdit,
@@ -202,16 +200,15 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
     });
   }
   getUserById() {
-    //TODO QA
     this.userService.find({ identification: this.usernameEdit.value }).subscribe((data: User[]) => {
       const user = data[0]
+      this.userId = user._id
       this.usernameEdit.setValue(user.identification) 
       this.userTypeEdit = user.type
-      this.selectedRouteEdit = user.route
+      this.selectedRouteEdit = user.route._id
       this.nameEdit.setValue(user.name)
       this.lastNameEdit.setValue(user.lastname)
       this.emailEdit.setValue(user.email)
-      this.passwordEdit.setValue(user.password) 
       this.dateEdit.setValue(user.birthday)
       this.shouldShowEditUser = true;
     }, error => {
@@ -224,12 +221,12 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
   }
 
   getRouteByName() {
-    //TODO QA search route By id
     this.routeService.find({ name: this.routeNameEdit.value }).subscribe(data => {
       const route = data[0]
+      this.routeId = route._id
       this.routeNameEdit.setValue(route.name)
       this.routePriceEdit.setValue(route.price)
-      this.routeProvince.setValue(route.province) 
+      this.routeProvinceEdit.setValue(route.province) 
       this.routeDistrictEdit.setValue(route.district) 
       this.routeCantonEdit.setValue(route.canton)
       this.shouldShowEditRoute = true;
@@ -243,10 +240,8 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
   }
 
   async disableUser () {
-    //TODO QA CALL disable using variable this.usernameDisable
-    const user = (await this.userService.find({ identification: this.usernameDisable }).toPromise())[0]
-    user.active = false
-    this.userService.update(user._id, user)
+    const user = (await this.userService.find({ identification: this.usernameDisable.value }).toPromise())[0]
+    this.userService.update(user._id, { active: false })
     .subscribe(response => {
       Swal.fire(
         'Completamente',
@@ -262,8 +257,7 @@ routeNameDisable = new FormControl('', [Validators.required, Validators.maxLengt
     });
   }
   async disableRoute() {
-    //TODO QA CALL disable using variable this.routeNameDisable
-    const route = (await this.routeService.find().toPromise())[0]
+    const route = (await this.routeService.find({ name: this.routeNameDisable.value }).toPromise())[0]
 
     this.routeService.delete(route._id)
     .subscribe(response => {

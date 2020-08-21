@@ -34,7 +34,7 @@ app.use("*", (req, res, next) => {
 // error handling
 app.use((err, req, res, next) => {
   console.log(err)
-  return res.status(501).json({ error: "Ha ocurrido un error desconocido." })
+  return res.status(501).json({ error: err })
 })
 
 module.exports = app

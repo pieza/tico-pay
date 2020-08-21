@@ -4,17 +4,9 @@ import { PaymentService } from 'src/app/services/payment.service';
 import { FormControl, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import {merge, Observable, of as observableOf} from 'rxjs';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-
-export interface Report1 {
-  user: string;
-  payment: number;
-}
-export interface Report2 {
-  user: string;
-  name: string;
-}
+import { Transaction, TransactionTypes } from 'src/app/models/transaction';
+import { TransactionService } from 'src/app/services/transaction.service';
+import { Route } from 'src/app/models/route';
 
 @Component({
   selector: 'app-driver',
@@ -23,33 +15,19 @@ export interface Report2 {
 })
 export class DriverComponent implements OnInit {
 
-  displayedColumnsReport1: string[] = ['user', 'payment'];
+  displayedColumnsReport1: string[] = ['user', 'amount'];
   displayedColumnsReport2: string[] = ['user', 'name'];
 
-  report1DataSet: Report1[] = [
-    {user: '117470491', payment: 2300},
-    {user: '117470491', payment: 5},
-    {user: '117470491', payment: 2},
-    {user: '117470491', payment: 4},
-    {user: '117470491', payment: 25},
-    {user: '117470491', payment: 15},
-  ];
+  report1DataSet: Transaction[] = [];
   
-  report2DataSet: Report2[] = [
-    {user: '117470491', name: 'Marco Morales'},
-    {user: '117470491', name: 'Marco Morales'},
-    {user: '117470491', name: 'Marco Morales'},
-    {user: '117470491', name: 'Marco Morales'},
-    {user: '117470491', name: 'Marco Morales'},
-    {user: '117470491', name: 'Marco Morales'},
-  ];
+  report2DataSet: Transaction[] = [];
 
   /** Gets the total cost of all report1DataSet. */
   getTotalCost() {
-    return this.report1DataSet.map(t => t.payment).reduce((acc, value) => acc + value, 0);
+    return this.report1DataSet.map(t => t.amount).reduce((acc, value) => acc + value, 0);
   }
   getTotal() {
-    return this.report2DataSet.map(t => t).reduce((acc, value) => acc + 1, 0);
+    return this.report2DataSet.length;
   }
 
   resultsLength = 0;
@@ -58,19 +36,32 @@ export class DriverComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  routeAssigned;
+  routeAssigned: Route;
   idToCharge = new FormControl('', [Validators.required, Validators.maxLength(9)]);
 
-  constructor(private authService : AuthService, private paymentService : PaymentService) { }
+  constructor(private authService : AuthService, private paymentService : PaymentService, private transactionService: TransactionService) { }
 
   ngAfterViewInit() {
 
 
   }
 
+  getReport1() {
+    this.transactionService.find({ type: TransactionTypes.CHARGE, route: this.routeAssigned._id }).subscribe(data => {
+      this.report1DataSet = data;
+    })
+  }
+
+  getReport2() {
+    this.transactionService.find({ type: TransactionTypes.DENIED }).subscribe(data => {
+      this.report2DataSet = data;
+    })
+  }
+
   ngOnInit(): void {
-    this.authService.user.route
-    this.routeAssigned = this.authService.user.route.name;
+    this.routeAssigned = this.authService.user.route;
+    this.getReport1();
+    this.getReport2();
   }
 
   chargeUser() {

@@ -23,13 +23,13 @@ export class AuthService  {
    * @param password       actual passwrd of user.
    */
   login(identification: String, password: String) {
+    Swal.showLoading()
     this.http.post(`${environment.apiUrl}/login`, {
       identification,
       password
     }).subscribe(
       (res:any) => {
         this.cookie.createCookie(environment.cookieId, res.token);
-        // TODO: add loading 
         this.current().then((user: User) => {
           this.router.navigateByUrl(user.type);
           Swal.fire(
