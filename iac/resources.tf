@@ -11,7 +11,7 @@ data "template_file" "init" {
 # ssh key
 resource "digitalocean_ssh_key" "default" {
   name       = "e-Descargas ssh key"
-  public_key = file("${path.module}/keys/edescargas.pub")
+  public_key = file("${path.module}/keys/key.pub")
 }
 
 # droplet
